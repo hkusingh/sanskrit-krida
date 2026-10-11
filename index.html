@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>विभक्तिक्रीडा — Sanskrit case and vocabulary flashcards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Tiro+Devanagari+Sanskrit&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E8EBE3; --surface:#F7F8F3; --ink:#18203D; --muted:#596079; --line:#C7CCBF;
+  --haldi:#C98A06; --right:#22694A; --right-soft:#D2E8DB; --wrong:#A3303D; --wrong-soft:#F2D6D9;
+  --dev:"Tiro Devanagari Sanskrit","Noto Serif Devanagari","Kohinoor Devanagari","Nirmala UI","Mangal",serif;
+  --ui:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#10152A; --surface:#191F37; --ink:#ECE7D8; --muted:#A2A7BB; --line:#2E3554;
+    --haldi:#F0B429; --right:#62C99A; --right-soft:#16382B; --wrong:#F27C88; --wrong-soft:#431F29;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#10152A; --surface:#191F37; --ink:#ECE7D8; --muted:#A2A7BB; --line:#2E3554;
+  --haldi:#F0B429; --right:#62C99A; --right-soft:#16382B; --wrong:#F27C88; --wrong-soft:#431F29;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.5;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--haldi);outline-offset:2px}
+.wrap{max-width:560px;margin:0 auto;padding:20px 18px 48px}
+.dev{font-family:var(--dev);font-weight:400}
+
+/* masthead */
+.mast{padding:6px 0 10px}
+.mast h1{font-family:var(--dev);font-weight:400;font-size:clamp(2.4rem,10vw,3.3rem);line-height:1.15;margin:0}
+.mast p{margin:0;color:var(--muted)}
+h2{font-size:.95rem;font-weight:600;margin:30px 0 10px;color:var(--muted)}
+
+/* deck list */
+.decks{border-top:4px solid var(--ink);margin-top:18px}
+.deck{display:grid;grid-template-columns:1fr auto;column-gap:12px;width:100%;padding:14px 2px 16px;border:0;border-bottom:1px solid var(--line);background:none;text-align:left;cursor:pointer}
+.deck .dn{font-family:var(--dev);font-size:1.55rem;line-height:1.25}
+.deck .ct{color:var(--muted);font-size:.85rem;text-align:right;align-self:center;font-variant-numeric:tabular-nums}
+.deck .en{grid-column:1/-1;font-weight:600}
+.deck .sub{grid-column:1/-1;color:var(--muted);font-size:.9rem}
+.meter{grid-column:1/-1;height:4px;background:var(--line);margin-top:10px}
+.meter i{display:block;height:100%;background:var(--haldi)}
+.deck:hover .dn{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
+
+/* chips and toggles */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--ink);background:transparent;border-radius:999px;padding:5px 13px;cursor:pointer;font-family:var(--dev);font-size:1.05rem;line-height:1.4}
+.chip .n{font-family:var(--ui);font-size:.72rem;margin-left:5px;opacity:.65}
+.cg{display:grid;grid-template-columns:6.6em 1fr;gap:8px;align-items:start;margin-bottom:10px}
+.cgl{font-size:1.05rem;padding-top:5px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:999px;overflow:hidden}
+.seg button{border:0;background:none;padding:6px 14px;cursor:pointer;font-size:.9rem}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.note{color:var(--muted);font-size:.85rem;margin:8px 0 0}
+.links{display:flex;gap:18px;flex-wrap:wrap;margin-top:30px}
+.link{background:none;border:0;padding:6px 0;cursor:pointer;color:var(--ink);text-decoration:underline;text-underline-offset:4px}
+.link.quiet{color:var(--muted)}
+
+/* play */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:.9rem;font-variant-numeric:tabular-nums}
+.top .streak{font-family:var(--dev);font-size:1.05rem;color:var(--ink)}
+.prog{height:3px;background:var(--line);margin-top:6px}
+.prog i{display:block;height:100%;background:var(--ink);transition:width .25s ease}
+.card{background:var(--surface);border-top:9px solid var(--ink);padding:20px 20px 24px;margin:16px 0 18px;min-height:190px;display:flex;flex-direction:column;justify-content:center}
+.card .big{font-family:var(--dev);font-size:clamp(2.6rem,13vw,3.7rem);line-height:1.2;word-break:break-word}
+.card .meta{color:var(--muted);font-size:.9rem}
+.card .ask{font-family:var(--dev);font-size:1.45rem;line-height:1.35;margin-top:14px}
+.card .hint{color:var(--muted);font-size:.9rem}
+.card .sent{font-family:var(--dev);font-size:clamp(1.6rem,7vw,2.1rem);line-height:1.5}
+.blank{display:inline-block;min-width:3.2em;border-bottom:3px solid var(--haldi);text-align:center}
+.blank.filled{border-color:transparent;background:var(--right-soft);padding:0 .2em}
+.back{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.back .mean{font-size:1.25rem;font-weight:500}
+.back .hi{font-family:var(--dev);font-size:1.3rem;color:var(--muted)}
+
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{font-family:var(--dev);font-size:1.45rem;line-height:1.3;padding:12px 8px;background:var(--surface);border:1.5px solid var(--line);border-top:3px solid var(--ink);cursor:pointer;min-height:66px}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--right-soft);border-color:var(--right);border-top-color:var(--right)}
+.opt.wrong{background:var(--wrong-soft);border-color:var(--wrong);border-top-color:var(--wrong)}
+
+.gridwrap{overflow-x:auto}
+.grid{width:100%;border-collapse:collapse;table-layout:fixed;min-width:320px}
+.grid th{font-weight:500;font-size:.8rem;color:var(--muted);padding:2px 3px 6px;text-align:center}
+.grid th.row{font-family:var(--dev);font-size:1.05rem;color:var(--ink);width:4.6em;text-align:left;font-weight:400}
+.grid td{padding:3px}
+.cell{display:block;width:100%;min-height:46px;border:1.5px solid var(--line);background:var(--surface);font-family:var(--dev);font-size:1.02rem;line-height:1.25;cursor:pointer;padding:6px 3px}
+.cell:hover:not(:disabled){border-color:var(--ink)}
+.cell:disabled{cursor:default}
+.cell.hit{background:var(--right-soft);border-color:var(--right)}
+.cell.miss{background:var(--wrong-soft);border-color:var(--wrong)}
+
+.fb{margin:16px 0 0;min-height:1.5em}
+.fb .verdict{font-weight:600}
+.fb.ok .verdict{color:var(--right)}
+.fb.no .verdict{color:var(--wrong)}
+.fb .dv{font-family:var(--dev);font-size:1.12rem}
+.primary{display:block;width:100%;padding:14px;background:var(--ink);color:var(--paper);border:0;font-weight:600;cursor:pointer;margin-top:16px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.pair .primary{margin:0}
+.secondary{display:block;width:100%;padding:13px;background:transparent;border:1.5px solid var(--ink);font-weight:600;cursor:pointer}
+
+/* end */
+.misses{list-style:none;padding:0;margin:0;border-top:1px solid var(--line)}
+.misses li{padding:10px 0;border-bottom:1px solid var(--line)}
+.misses .q{font-family:var(--dev);font-size:1.1rem}
+.misses .a{font-family:var(--dev);font-size:1.1rem;color:var(--right)}
+
+/* reference */
+.ref{width:100%;border-collapse:collapse;min-width:360px}
+.ref th,.ref td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.ref thead th{font-size:.8rem;font-weight:500;color:var(--muted);border-bottom:2px solid var(--ink)}
+.ref td,.ref th.row{font-family:var(--dev);font-size:1.08rem;font-weight:400}
+.ref .small{display:block;font-family:var(--ui);font-size:.75rem;color:var(--muted)}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+@media (min-width:520px){.card{padding:24px 28px 28px}}
+</style>
+</head>
+<body>
+<main class="wrap" id="app" aria-live="polite"></main>
+<script>
+/* ---------- data ---------- */
+const CASES=[
+ {dev:'प्रथमा',karaka:'कर्ता',en:'subject',hi:'— / ने'},
+ {dev:'द्वितीया',karaka:'कर्म',en:'object',hi:'को'},
+ {dev:'तृतीया',karaka:'करण',en:'instrument, agent',hi:'से, द्वारा'},
+ {dev:'चतुर्थी',karaka:'सम्प्रदान',en:'recipient, purpose',hi:'को, के लिए'},
+ {dev:'पञ्चमी',karaka:'अपादान',en:'source, separation',hi:'से (अलग होना)'},
+ {dev:'षष्ठी',karaka:'सम्बन्ध',en:'possession, relation',hi:'का, के, की'},
+ {dev:'सप्तमी',karaka:'अधिकरण',en:'location',hi:'में, पर'},
+ {dev:'सम्बोधन',karaka:'—',en:'address',hi:'हे, अरे'}
+];
+const NUMS=['एकवचन','द्विवचन','बहुवचन'];
+const NUMS_SHORT=['एक','द्वि','बहु'];
+/* ---- declension templates: endings are appended to an a-final base (देव, मुन, पित...) ---- */
+const TPL={
+ 'a-m':['ः ौ ाः','म् ौ ान्','ेन ाभ्याम् ैः','ाय ाभ्याम् ेभ्यः','ात् ाभ्याम् ेभ्यः','स्य योः ानाम्','े योः ेषु','_ ौ ाः'],
+ 'a-n':['म् े ानि','म् े ानि','ेन ाभ्याम् ैः','ाय ाभ्याम् ेभ्यः','ात् ाभ्याम् ेभ्यः','स्य योः ानाम्','े योः ेषु','_ े ानि'],
+ 'aa-f':['ा े ाः','ाम् े ाः','या ाभ्याम् ाभिः','ायै ाभ्याम् ाभ्यः','ायाः ाभ्याम् ाभ्यः','ायाः योः ानाम्','ायाम् योः ासु','े े ाः'],
+ 'i-m':['िः ी यः','िम् ी ीन्','िना िभ्याम् िभिः','ये िभ्याम् िभ्यः','ेः िभ्याम् िभ्यः','ेः ्योः ीनाम्','ौ ्योः िषु','े ी यः'],
+ 'i-f':['िः ी यः','िम् ी ीः','्या िभ्याम् िभिः','्यै|ये िभ्याम् िभ्यः','्याः|ेः िभ्याम् िभ्यः','्याः|ेः ्योः ीनाम्','्याम्|ौ ्योः िषु','े ी यः'],
+ 'i-n':['ि िनी ीनि','ि िनी ीनि','िना िभ्याम् िभिः','िने िभ्याम् िभ्यः','िनः िभ्याम् िभ्यः','िनः िनोः ीनाम्','िनि िनोः िषु','े|ि िनी ीनि'],
+ 'dadhi':['ि िनी ीनि','ि िनी ीनि','्ना िभ्याम् िभिः','्ने िभ्याम् िभ्यः','्नः िभ्याम् िभ्यः','्नः ्नोः ्नाम्','्नि|नि ्नोः िषु','े|ि िनी ीनि'],
+ 'ii-f':['ी ्यौ ्यः','ीम् ्यौ ीः','्या ीभ्याम् ीभिः','्यै ीभ्याम् ीभ्यः','्याः ीभ्याम् ीभ्यः','्याः ्योः ीनाम्','्याम् ्योः ीषु','ि ्यौ ्यः'],
+ 'u-m':['ुः ू वः','ुम् ू ून्','ुना ुभ्याम् ुभिः','वे ुभ्याम् ुभ्यः','ोः ुभ्याम् ुभ्यः','ोः ्वोः ूनाम्','ौ ्वोः ुषु','ो ू वः'],
+ 'u-f':['ुः ू वः','ुम् ू ूः','्वा ुभ्याम् ुभिः','्वै|वे ुभ्याम् ुभ्यः','्वाः|ोः ुभ्याम् ुभ्यः','्वाः|ोः ्वोः ूनाम्','्वाम्|ौ ्वोः ुषु','ो ू वः'],
+ 'u-n':['ु ुनी ूनि','ु ुनी ूनि','ुना ुभ्याम् ुभिः','ुने ुभ्याम् ुभ्यः','ुनः ुभ्याम् ुभ्यः','ुनः ुनोः ूनाम्','ुनि ुनोः ुषु','ो|ु ुनी ूनि'],
+ 'uu-f':['ूः ्वौ ्वः','ूम् ्वौ ूः','्वा ूभ्याम् ूभिः','्वै ूभ्याम् ूभ्यः','्वाः ूभ्याम् ूभ्यः','्वाः ्वोः ूनाम्','्वाम् ्वोः ूषु','ु ्वौ ्वः'],
+ 'r-rel':['ा रौ रः','रम् रौ ॄन्','्रा ृभ्याम् ृभिः','्रे ृभ्याम् ृभ्यः','ुः ृभ्याम् ृभ्यः','ुः ्रोः ॄनाम्','रि ्रोः ृषु','ः रौ रः'],
+ 'r-ag':['ा ारौ ारः','ारम् ारौ ॄन्','्रा ृभ्याम् ृभिः','्रे ृभ्याम् ृभ्यः','ुः ृभ्याम् ृभ्यः','ुः ्रोः ॄनाम्','रि ्रोः ृषु','ः ारौ ारः'],
+ 'r-relf':['ा रौ रः','रम् रौ ॄः','्रा ृभ्याम् ृभिः','्रे ृभ्याम् ृभ्यः','ुः ृभ्याम् ृभ्यः','ुः ्रोः ॄनाम्','रि ्रोः ृषु','ः रौ रः'],
+ 'r-agf':['ा ारौ ारः','ारम् ारौ ॄः','्रा ृभ्याम् ृभिः','्रे ृभ्याम् ृभ्यः','ुः ृभ्याम् ृभ्यः','ुः ्रोः ॄनाम्','रि ्रोः ृषु','ः ारौ ारः'],
+ 'vat':['ान् न्तौ न्तः','न्तम् न्तौ तः','ता द्भ्याम् द्भिः','ते द्भ्याम् द्भ्यः','तः द्भ्याम् द्भ्यः','तः तोः ताम्','ति तोः त्सु','न् न्तौ न्तः'],
+ 'in':['ी िनौ िनः','िनम् िनौ िनः','िना िभ्याम् िभिः','िने िभ्याम् िभ्यः','िनः िभ्याम् िभ्यः','िनः िनोः िनाम्','िनि िनोः िषु','िन् िनौ िनः'],
+ 'rajan':['ा ानौ ानः','ानम् ानौ ्नः','्ना भ्याम् भिः','्ने भ्याम् भ्यः','्नः भ्याम् भ्यः','्नः ्नोः ्नाम्','्नि|नि ्नोः सु','न् ानौ ानः'],
+ 'atman':['ा ानौ ानः','ानम् ानौ नः','ना भ्याम् भिः','ने भ्याम् भ्यः','नः भ्याम् भ्यः','नः नोः नाम्','नि नोः सु','न् ानौ ानः'],
+ 'naman':['_ ्नी|नी ानि','_ ्नी|नी ानि','्ना भ्याम् भिः','्ने भ्याम् भ्यः','्नः भ्याम् भ्यः','्नः ्नोः ्नाम्','्नि|नि ्नोः सु','न्|_ ्नी|नी ानि'],
+ 'karman':['_ नी ानि','_ नी ानि','ना भ्याम् भिः','ने भ्याम् भ्यः','नः भ्याम् भ्यः','नः नोः नाम्','नि नोः सु','न्|_ नी ानि'],
+ 'as':['ः सी ांसि','ः सी ांसि','सा ोभ्याम् ोभिः','से ोभ्याम् ोभ्यः','सः ोभ्याम् ोभ्यः','सः सोः साम्','सि सोः ःसु|स्सु','ः सी ांसि']
+};
+/* णत्व: न → ण after र, ष, ऋ, ॠ when only vowels, gutturals, labials, य व र ह or anusvara intervene, and न is not word-final */
+const NT_TRIG='रषृॄऋॠ',NT_OK='कखगघङपफबभमयवरहंािीुूृॄेैोौ्अआइईउऊऋॠएऐओऔ';
+function natva(s){
+  let act=false,o='';
+  for(let i=0;i<s.length;i++){
+    const ch=s[i];
+    if(ch==='न'){
+      let conv=act;
+      if(conv&&s[i+1]==='्'){const n2=s[i+2];conv=!!n2&&'नमयव'.includes(n2);}
+      o+=conv?'ण':'न';act=false;continue;
+    }
+    if(NT_TRIG.includes(ch))act=true;else if(!NT_OK.includes(ch))act=false;
+    o+=ch;
+  }
+  return o;
+}
+const decline=(base,tpl)=>TPL[tpl].map(row=>row.split(' ').map(cell=>cell.split('|').map(e=>natva((base+(e==='_'?'':e)).replace(/ज्न/g,'ज्ञ'))).join('|')));
+/* word rows: [id or '', stem, base, template, English, Hindi] */
+const TYPES=[
+ {id:'m-a',g:'m',chip:'अ',label:'पुंलिङ्ग, अकारान्त',words:[['deva','देव','देव','a-m','god','देवता'],['','राम','राम','a-m','Rama','राम'],['','बालक','बालक','a-m','boy','लड़का'],['','वृक्ष','वृक्ष','a-m','tree','पेड़'],['','पुत्र','पुत्र','a-m','son','बेटा'],['','नर','नर','a-m','man','मनुष्य'],['','अश्व','अश्व','a-m','horse','घोड़ा'],['','ग्राम','ग्राम','a-m','village','गाँव'],['','सूर्य','सूर्य','a-m','sun','सूरज'],['','गज','गज','a-m','elephant','हाथी']]},
+ {id:'m-i',g:'m',chip:'इ',label:'पुंलिङ्ग, इकारान्त',words:[['muni','मुनि','मुन','i-m','sage','मुनि'],['','कवि','कव','i-m','poet','कवि'],['','हरि','हर','i-m','Hari (Vishnu)','हरि'],['','अग्नि','अग्न','i-m','fire','आग'],['','ऋषि','ऋष','i-m','seer','ऋषि'],['','रवि','रव','i-m','sun','सूर्य'],['','अतिथि','अतिथ','i-m','guest','मेहमान']]},
+ {id:'m-u',g:'m',chip:'उ',label:'पुंलिङ्ग, उकारान्त',words:[['guru','गुरु','गुर','u-m','teacher','गुरु, शिक्षक'],['','शत्रु','शत्र','u-m','enemy','दुश्मन'],['','भानु','भान','u-m','sun','सूर्य'],['','साधु','साध','u-m','good man, saint','साधु'],['','शिशु','शिश','u-m','infant','बच्चा'],['','तरु','तर','u-m','tree','पेड़'],['','विष्णु','विष्ण','u-m','Vishnu','विष्णु']]},
+ {id:'m-r',g:'m',chip:'ऋ',label:'पुंलिङ्ग, ऋकारान्त',words:[['pitr','पितृ','पित','r-rel','father','पिता'],['','भ्रातृ','भ्रात','r-rel','brother','भाई'],['','जामातृ','जामात','r-rel','son-in-law','दामाद'],['datr','दातृ','दात','r-ag','giver','देने वाला'],['','कर्तृ','कर्त','r-ag','doer','करने वाला'],['','नेतृ','नेत','r-ag','leader','नेता'],['','श्रोतृ','श्रोत','r-ag','listener','सुनने वाला'],['','वक्तृ','वक्त','r-ag','speaker','बोलने वाला']]},
+ {id:'m-vat',hidden:true,g:'m',chip:'वत्/मत्',label:'पुंलिङ्ग, तकारान्त (वत्, मत्)',words:[['','भगवत्','भगव','vat','the Lord','भगवान्'],['','श्रीमत्','श्रीम','vat','prosperous (man)','श्रीमान्'],['','बुद्धिमत्','बुद्धिम','vat','wise (man)','बुद्धिमान्'],['','धनवत्','धनव','vat','wealthy (man)','धनवान्'],['','गुणवत्','गुणव','vat','virtuous (man)','गुणवान्']]},
+ {id:'m-in',hidden:true,g:'m',chip:'इन्',label:'पुंलिङ्ग, नकारान्त (इन्)',words:[['','गुणिन्','गुण','in','virtuous person','गुणी'],['','धनिन्','धन','in','rich man','धनी'],['','करिन्','कर','in','elephant','हाथी'],['','हस्तिन्','हस्त','in','elephant','हाथी'],['','योगिन्','योग','in','yogi','योगी'],['','मन्त्रिन्','मन्त्र','in','minister','मंत्री']]},
+ {id:'m-an',hidden:true,g:'m',chip:'अन्',label:'पुंलिङ्ग, नकारान्त (अन्)',words:[['','राजन्','राज','rajan','king','राजा'],['','मूर्धन्','मूर्ध','rajan','head','सिर'],['','आत्मन्','आत्म','atman','self, soul','आत्मा'],['','ब्रह्मन्','ब्रह्म','atman','Brahma; a brahmin','ब्रह्मा'],['','अश्मन्','अश्म','atman','stone','पत्थर'],['','अध्वन्','अध्व','atman','road, journey','रास्ता']]},
+ {id:'f-aa',g:'f',chip:'आ',label:'स्त्रीलिङ्ग, आकारान्त',words:[['lata','लता','लत','aa-f','creeper, vine','बेल'],['','बाला','बाल','aa-f','girl','लड़की'],['','माला','माल','aa-f','garland','माला'],['','विद्या','विद्य','aa-f','learning','विद्या'],['','कथा','कथ','aa-f','story','कहानी'],['','शाला','शाल','aa-f','hall, school','शाला'],['','सेना','सेन','aa-f','army','सेना'],['','कन्या','कन्य','aa-f','girl, daughter','कन्या']]},
+ {id:'f-i',g:'f',chip:'इ',label:'स्त्रीलिङ्ग, इकारान्त',words:[['mati','मति','मत','i-f','mind, intellect','बुद्धि'],['','बुद्धि','बुद्ध','i-f','intelligence','बुद्धि'],['','भूमि','भूम','i-f','ground, land','ज़मीन'],['','रात्रि','रात्र','i-f','night','रात'],['','शक्ति','शक्त','i-f','power','शक्ति'],['','कीर्ति','कीर्त','i-f','fame','कीर्ति'],['','भक्ति','भक्त','i-f','devotion','भक्ति']]},
+ {id:'f-ii',g:'f',chip:'ई',label:'स्त्रीलिङ्ग, ईकारान्त',words:[['nadi','नदी','नद','ii-f','river','नदी'],['','देवी','देव','ii-f','goddess','देवी'],['','नारी','नार','ii-f','woman','स्त्री'],['','पृथ्वी','पृथ्व','ii-f','earth','धरती'],['','कुमारी','कुमार','ii-f','girl','कुमारी'],['','जननी','जनन','ii-f','mother','माँ']]},
+ {id:'f-u',g:'f',chip:'उ',label:'स्त्रीलिङ्ग, उकारान्त',words:[['','धेनु','धेन','u-f','cow','गाय'],['','रज्जु','रज्ज','u-f','rope','रस्सी'],['','तनु','तन','u-f','body','शरीर'],['','चञ्चु','चञ्च','u-f','beak','चोंच'],['','हनु','हन','u-f','jaw','जबड़ा']]},
+ {id:'f-uu',g:'f',chip:'ऊ',label:'स्त्रीलिङ्ग, ऊकारान्त',words:[['','वधू','वध','uu-f','bride, daughter-in-law','बहू'],['','चमू','चम','uu-f','army','सेना'],['','श्वश्रू','श्वश्र','uu-f','mother-in-law','सास'],['','जम्बू','जम्ब','uu-f','rose-apple tree','जामुन'],['','सरयू','सरय','uu-f','the Sarayu river','सरयू नदी']]},
+ {id:'f-r',g:'f',chip:'ऋ',label:'स्त्रीलिङ्ग, ऋकारान्त',words:[['matr','मातृ','मात','r-relf','mother','माँ'],['','दुहितृ','दुहित','r-relf','daughter','बेटी'],['','ननान्दृ','ननान्द','r-relf',"husband's sister",'ननद'],['','यातृ','यात','r-relf',"husband's brother's wife",'देवरानी, जेठानी'],['svasr','स्वसृ','स्वस','r-agf','sister','बहन']]},
+ {id:'n-a',g:'n',chip:'अ',label:'नपुंसकलिङ्ग, अकारान्त',words:[['phala','फल','फल','a-n','fruit; result','फल'],['','पुष्प','पुष्प','a-n','flower','फूल'],['','गृह','गृह','a-n','house','घर'],['','वन','वन','a-n','forest','जंगल'],['','जल','जल','a-n','water','पानी'],['','मित्र','मित्र','a-n','friend','दोस्त'],['','पुस्तक','पुस्तक','a-n','book','किताब'],['','ज्ञान','ज्ञान','a-n','knowledge','ज्ञान']]},
+ {id:'n-i',g:'n',chip:'इ',label:'नपुंसकलिङ्ग, इकारान्त',words:[['','वारि','वार','i-n','water','पानी'],['','दधि','दध','dadhi','curd','दही'],['','अस्थि','अस्थ','dadhi','bone','हड्डी'],['','अक्षि','अक्ष','dadhi','eye','आँख'],['','सक्थि','सक्थ','dadhi','thigh','जाँघ']]},
+ {id:'n-u',g:'n',chip:'उ',label:'नपुंसकलिङ्ग, उकारान्त',words:[['','मधु','मध','u-n','honey','शहद'],['','वस्तु','वस्त','u-n','thing','वस्तु'],['','अश्रु','अश्र','u-n','tear','आँसू'],['','जानु','जान','u-n','knee','घुटना'],['','दारु','दार','u-n','wood','लकड़ी']]},
+ {id:'n-an',hidden:true,g:'n',chip:'अन्',label:'नपुंसकलिङ्ग, नकारान्त (अन्)',words:[['','नामन्','नाम','naman','name','नाम'],['','धामन्','धाम','naman','abode','धाम'],['','कर्मन्','कर्म','karman','action','कर्म'],['','जन्मन्','जन्म','karman','birth','जन्म'],['','चर्मन्','चर्म','karman','skin, leather','चमड़ा'],['','वर्मन्','वर्म','karman','armour','कवच']]},
+ {id:'n-as',hidden:true,g:'n',chip:'अस्',label:'नपुंसकलिङ्ग, सकारान्त (अस्)',words:[['','मनस्','मन','as','mind','मन'],['','यशस्','यश','as','fame','यश'],['','पयस्','पय','as','milk, water','दूध'],['','तपस्','तप','as','austerity','तप'],['','वचस्','वच','as','speech','वचन'],['','शिरस्','शिर','as','head','सिर']]},
+ {id:'pron',g:'p',chip:'सर्वनाम',label:'सर्वनाम',words:[]}
+];
+const NOTES={
+ 'm-r':'Relationship nouns (पितृ, भ्रातृ, जामातृ) strengthen ऋ to अर् in the strong cases (पितरौ). Agent nouns (दातृ, कर्तृ, नेतृ, श्रोतृ, वक्तृ) strengthen it to आर् (दातारौ).',
+ 'f-r':'मातृ, दुहितृ, ननान्दृ and यातृ follow पितृ but take -ॄः in द्वितीया बहुवचन. स्वसृ declines like an agent noun: स्वसारौ.',
+ 'm-vat':'Stems in -वत् and -मत् use a strong stem in -वन्त् or -मन्त् (भगवन्तौ) and end in -आन् in प्रथमा एकवचन (भगवान्). भवत् (आप) declines the same way; it is listed under pronouns.',
+ 'm-in':'द्वितीया बहुवचन, पञ्चमी एकवचन and षष्ठी एकवचन all share one form: गुणिनः.',
+ 'm-an':'राजन् and मूर्धन् drop the अ of -अन् before vowel endings (राज्ञा, मूर्ध्ना). When -मन् or -वन् follows a consonant, as in आत्मन्, ब्रह्मन्, अश्मन्, अध्वन्, the अ stays (आत्मना).',
+ 'f-ii':'भवती (आप, feminine) follows this pattern too; it is listed under pronouns.',
+ 'n-i':'वारि shows the regular pattern. दधि, अस्थि, अक्षि and सक्थि form a small irregular group with an -न् stem in the weak cases (दध्ना, अक्ष्णा). There are few other common neuter इ-stems.',
+ 'n-an':'नामन् and धामन् drop the अ before vowel endings (नाम्ना). कर्मन्, जन्मन्, चर्मन् and वर्मन् keep it because -मन् follows a consonant (कर्मणा).',
+ 'n-as':'Before endings beginning with भ्, -अस् becomes -ओ (मनोभ्याम्).',
+ 'pron':'भवत् (आप) declines like a वत्-stem and भवती like नदी, but both take a third-person verb: भवान् गच्छति, भवती पठति.'
+};
+const P=(id,word,chip,desc,gloss,rows)=>({id,word,chip,desc,gloss,hi:'',g:'p',type:'pron',forms:rows.map(r=>r?r.split(' '):null)});
+const PARADIGMS=[];
+TYPES.forEach(t=>t.words.forEach(([id,stem,base,tpl,en,hi])=>PARADIGMS.push({id:id||stem,word:stem,chip:stem,desc:t.label,gloss:en,hi,g:t.g,type:t.id,forms:decline(base,tpl)})));
+[
+ P('tad-m','तद्','तद् पुं.','सर्वनाम, पुंलिङ्ग','he, that',['सः तौ ते','तम् तौ तान्','तेन ताभ्याम् तैः','तस्मै ताभ्याम् तेभ्यः','तस्मात् ताभ्याम् तेभ्यः','तस्य तयोः तेषाम्','तस्मिन् तयोः तेषु',null]),
+ P('tad-f','तद्','तद् स्त्री.','सर्वनाम, स्त्रीलिङ्ग','she, that',['सा ते ताः','ताम् ते ताः','तया ताभ्याम् ताभिः','तस्यै ताभ्याम् ताभ्यः','तस्याः ताभ्याम् ताभ्यः','तस्याः तयोः तासाम्','तस्याम् तयोः तासु',null]),
+ P('asmad','अस्मद्','अस्मद्','सर्वनाम, उत्तमपुरुष','I, we',['अहम् आवाम् वयम्','माम्|मा आवाम्|नौ अस्मान्|नः','मया आवाभ्याम् अस्माभिः','मह्यम्|मे आवाभ्याम्|नौ अस्मभ्यम्|नः','मत् आवाभ्याम् अस्मत्','मम|मे आवयोः|नौ अस्माकम्|नः','मयि आवयोः अस्मासु',null]),
+ P('yushmad','युष्मद्','युष्मद्','सर्वनाम, मध्यमपुरुष','you',['त्वम् युवाम् यूयम्','त्वाम्|त्वा युवाम्|वाम् युष्मान्|वः','त्वया युवाभ्याम् युष्माभिः','तुभ्यम्|ते युवाभ्याम्|वाम् युष्मभ्यम्|वः','त्वत् युवाभ्याम् युष्मत्','तव|ते युवयोः|वाम् युष्माकम्|वः','त्वयि युवयोः युष्मासु',null]),
+ {id:'bhavat',word:'भवत्',chip:'भवत् पुं.',desc:'सर्वनाम, आप (पुंलिङ्ग)',gloss:'you (respectful, masc.)',hi:'आप',g:'p',type:'pron',forms:decline('भव','vat')},
+ {id:'bhavati',word:'भवती',chip:'भवती',desc:'सर्वनाम, आप (स्त्रीलिङ्ग)',gloss:'you (respectful, fem.)',hi:'आप',g:'p',type:'pron',forms:decline('भवत','ii-f')}
+].forEach(x=>PARADIGMS.push(x));
+TYPES.find(t=>t.id==='pron').count=6;
+TYPES.forEach(t=>{t.count=PARADIGMS.filter(p=>p.type===t.id).length});
+/* hidden types stay in the vocabulary deck but are left out of the case decks */
+const CASE_TYPES=TYPES.filter(t=>!t.hidden);
+
+/* sentence gaps: first option is correct */
+const SENTS=[
+ {s:'बालकः ___ पठति।',w:'पुस्तक',o:['पुस्तकम्','पुस्तकेन','पुस्तके','पुस्तकस्य'],c:1,en:'The boy reads a book.',why:'The object of पठति takes द्वितीया.'},
+ {s:'रामः ___ रावणं हन्ति।',w:'बाण',o:['बाणेन','बाणम्','बाणाय','बाणात्'],c:2,en:'Rama kills Ravana with an arrow.',why:'The instrument (करण) takes तृतीया.'},
+ {s:'नृपः ___ धनं ददाति।',w:'ब्राह्मण',o:['ब्राह्मणाय','ब्राह्मणम्','ब्राह्मणेन','ब्राह्मणस्य'],c:3,en:'The king gives wealth to the brahmin.',why:'The recipient of दा (सम्प्रदान) takes चतुर्थी.'},
+ {s:'___ पत्रं पतति।',w:'वृक्ष',o:['वृक्षात्','वृक्षे','वृक्षेण','वृक्षम्'],c:4,en:'A leaf falls from the tree.',why:'The point of separation (अपादान) takes पञ्चमी.'},
+ {s:'___ पुत्रः वनं गच्छति।',w:'दशरथ',o:['दशरथस्य','दशरथेन','दशरथाय','दशरथम्'],c:5,en:"Dasharatha's son goes to the forest.",why:'Possession or relation takes षष्ठी.'},
+ {s:'___ मत्स्याः वसन्ति।',w:'जल',o:['जले','जलेन','जलम्','जलात्'],c:6,en:'Fish live in water.',why:'Location (अधिकरण) takes सप्तमी.'},
+ {s:'___, अत्र आगच्छ।',w:'बालक',o:['हे बालक','बालकः','बालकम्','बालकाय'],c:7,en:'Boy, come here.',why:'Direct address takes सम्बोधन.'},
+ {s:'छात्राः ___ सह गच्छन्ति।',w:'गुरु',o:['गुरुणा','गुरुम्','गुरवे','गुरोः'],c:2,en:'The students go with the teacher.',why:'सह governs तृतीया.'},
+ {s:'___ नमः।',w:'शिव',o:['शिवाय','शिवम्','शिवेन','शिवस्य'],c:3,en:'Salutation to Shiva.',why:'The indeclinable नमः governs चतुर्थी.'},
+ {s:'___ परितः वृक्षाः सन्ति।',w:'ग्राम',o:['ग्रामम्','ग्रामे','ग्रामस्य','ग्रामात्'],c:1,en:'There are trees all around the village.',why:'परितः governs द्वितीया.'},
+ {s:'___ चन्द्रः दृश्यते।',w:'अस्मद्',o:['मया','अहम्','माम्','मम'],c:2,en:'The moon is seen by me.',why:'In the passive (कर्मणि प्रयोग) the agent takes तृतीया and the object stands in प्रथमा.'},
+ {s:'बालकाः ___ क्रीडन्ति।',w:'उद्यान',o:['उद्याने','उद्यानम्','उद्यानेन','उद्यानात्'],c:6,en:'The boys play in the garden.',why:'Location takes सप्तमी.'},
+ {s:'अहं ___ फलानि ददामि।',w:'युष्मद्',o:['तुभ्यम्','त्वाम्','त्वया','तव'],c:3,en:'I give you fruits.',why:'The recipient of दा takes चतुर्थी.'},
+ {s:'___ नाम किम्?',w:'युष्मद्',o:['तव','त्वम्','त्वया','तुभ्यम्'],c:5,en:'What is your name?',why:'Possession takes षष्ठी.'},
+ {s:'मृगः ___ बिभेति।',w:'सिंह',o:['सिंहात्','सिंहम्','सिंहेन','सिंहे'],c:4,en:'The deer fears the lion.',why:'The source of fear with भी takes पञ्चमी.'},
+ {s:'___ सह सीता वनम् अगच्छत्।',w:'राम',o:['रामेण','रामम्','रामाय','रामस्य'],c:2,en:'Sita went to the forest with Rama.',why:'सह governs तृतीया.'},
+ {s:'___ गङ्गा प्रभवति।',w:'हिमालय',o:['हिमालयात्','हिमालये','हिमालयम्','हिमालयेन'],c:4,en:'The Ganga rises from the Himalaya.',why:'The point of origin with प्र + भू takes पञ्चमी.'},
+ {s:'___ तटे मन्दिरम् अस्ति।',w:'नदी',o:['नद्याः','नदी','नदीम्','नद्याम्'],c:5,en:'There is a temple on the bank of the river.',why:'"Of the river" is षष्ठी. नद्याः is also the पञ्चमी form.'},
+ {s:'मुनयः ___ तपः कुर्वन्ति।',w:'वन',o:['वने','वनम्','वनेन','वनात्'],c:6,en:'The sages perform austerities in the forest.',why:'Location takes सप्तमी.'},
+ {s:'शिष्यः ___ प्रणमति।',w:'गुरु',o:['गुरुम्','गुरुणा','गुरवे','गुरौ'],c:1,en:'The disciple bows to the teacher.',why:'The verb प्र + नम् takes a direct object in द्वितीया. Compare the indeclinable नमः, which takes चतुर्थी.'},
+ {s:'कृषकाः ___ क्षेत्रं कर्षन्ति।',w:'हल',o:['हलेन','हलम्','हलाय','हले'],c:2,en:'The farmers plough the field with a plough.',why:'The instrument takes तृतीया.'},
+ {s:'इयं ___ लेखनी।',w:'अस्मद्',o:['मम','अहम्','माम्','मया'],c:5,en:'This is my pen.',why:'Possession takes षष्ठी.'},
+ {s:'सः ___ जलम् आनयति।',w:'नदी',o:['नद्याः','नदीम्','नद्या','नद्याम्'],c:4,en:'He brings water from the river.',why:'The source takes पञ्चमी. The same form नद्याः is also षष्ठी.'},
+ {s:'माता ___ मोदकं ददाति।',w:'बाला',o:['बालायै','बालाम्','बालया','बालायाः'],c:3,en:'The mother gives the girl a sweet.',why:'The recipient takes चतुर्थी; आकारान्त feminines take -आयै.'},
+ {s:'बालकः ___ सह आपणं गच्छति।',w:'पितृ',o:['पित्रा','पितरम्','पितुः','पितरि'],c:2,en:'The boy goes to the market with his father.',why:'सह governs तृतीया; ऋकारान्त stems take -त्रा.'},
+ {s:'___ गृहं ग्रामे अस्ति।',w:'मातृ',o:['मातुः','माता','मातरम्','मात्रा'],c:5,en:"Mother's house is in the village.",why:'Possession takes षष्ठी. The same form मातुः is also पञ्चमी.'},
+ {s:'सा ___ पुस्तकं ददाति।',w:'स्वसृ',o:['स्वस्रे','स्वसारम्','स्वसुः','स्वस्रा'],c:3,en:'She gives a book to her sister.',why:'The recipient of दा takes चतुर्थी.'},
+ {s:'जनाः ___ प्रशंसन्ति।',w:'दातृ',o:['दातारम्','दाता','दात्रा','दातुः'],c:1,en:'People praise the giver.',why:'The object of प्रशंसन्ति takes द्वितीया; agent nouns show the strong stem दातार्-.'},
+ {s:'___ आज्ञया रामः वनम् अगच्छत्।',w:'पितृ',o:['पितुः','पिता','पित्रे','पितरि'],c:5,en:"Rama went to the forest by his father's command.",why:'"Father\'s command" is षष्ठी.'},
+ {s:'___ कुत्र गच्छति?',w:'भवत् (पुं.)',o:['भवान्','भवन्तम्','भवता','भवतः'],c:0,en:'Where are you going, sir?',why:'The subject takes प्रथमा. भवान् takes a third-person verb (गच्छति), never गच्छसि.'},
+ {s:'अहं ___ नमामि।',w:'भवत् (पुं.)',o:['भवन्तम्','भवान्','भवते','भवता'],c:1,en:'I bow to you, sir.',why:'The object of नमामि takes द्वितीया.'},
+ {s:'___ नाम किम्?',w:'भवती',o:['भवत्याः','भवती','भवतीम्','भवत्या'],c:5,en:'What is your name, madam?',why:'Possession takes षष्ठी; भवती declines like नदी.'},
+ {s:'अहं ___ सह आगच्छामि।',w:'भवती',o:['भवत्या','भवतीम्','भवत्याः','भवत्यै'],c:2,en:'I am coming with you, madam.',why:'सह governs तृतीया.'}
+];
+
+const GANA={1:'भ्वादि',2:'अदादि',3:'जुहोत्यादि',4:'दिवादि',5:'स्वादि',6:'तुदादि',7:'रुधादि',8:'तनादि',9:'क्र्यादि',10:'चुरादि'};
+const PADA={P:'परस्मैपद',A:'आत्मनेपद',U:'उभयपद'};
+const V=(sa,root,code,en,hi)=>{const m=/^(\d+)([PAU])$/.exec(code);return [sa,m?`${root}, ${GANA[m[1]]}, ${PADA[m[2]]}`:`${root}, ${code}`,en,hi]};
+const VOCAB=[
+ ['देवः','पुं.','god','देवता'],['नरः','पुं.','man','मनुष्य'],['बालकः','पुं.','boy','लड़का'],['पुत्रः','पुं.','son','बेटा'],
+ ['गजः','पुं.','elephant','हाथी'],['अश्वः','पुं.','horse','घोड़ा'],['वृक्षः','पुं.','tree','पेड़'],['ग्रामः','पुं.','village','गाँव'],
+ ['सूर्यः','पुं.','sun','सूरज'],['चन्द्रः','पुं.','moon','चाँद'],['मेघः','पुं.','cloud','बादल'],['सिंहः','पुं.','lion','शेर'],
+ ['मार्गः','पुं.','path, road','रास्ता'],['जलम्','नपुं.','water','पानी'],['फलम्','नपुं.','fruit; result','फल'],['पुष्पम्','नपुं.','flower','फूल'],
+ ['गृहम्','नपुं.','house','घर'],['वनम्','नपुं.','forest','जंगल'],['पुस्तकम्','नपुं.','book','किताब'],['मित्रम्','नपुं.','friend','दोस्त'],
+ ['ज्ञानम्','नपुं.','knowledge','ज्ञान'],['नेत्रम्','नपुं.','eye','आँख'],['अन्नम्','नपुं.','food, grain','अनाज, भोजन'],
+ ['लता','स्त्री.','creeper, vine','बेल'],['बाला','स्त्री.','girl','लड़की'],['माला','स्त्री.','garland','माला'],['विद्या','स्त्री.','learning','विद्या'],
+ ['शाला','स्त्री.','hall, school','शाला'],['कथा','स्त्री.','story','कहानी'],['नदी','स्त्री.','river','नदी'],['नारी','स्त्री.','woman','स्त्री'],
+ ['पृथ्वी','स्त्री.','earth','धरती'],['मुनिः','पुं.','sage','मुनि, ऋषि'],['कविः','पुं.','poet','कवि'],['अग्निः','पुं.','fire','आग'],
+ ['गुरुः','पुं.','teacher','गुरु, शिक्षक'],['शत्रुः','पुं.','enemy','दुश्मन'],['मतिः','स्त्री.','mind, intellect','बुद्धि'],['भूमिः','स्त्री.','ground, land','ज़मीन'],
+ ['रात्रिः','स्त्री.','night','रात'],['पिता','पुं. (पितृ)','father','पिता'],['माता','स्त्री. (मातृ)','mother','माँ'],['राजा','पुं.','king','राजा'],
+ V('गच्छति','√गम्','1P','goes','जाता है'),V('आगच्छति','आ + √गम्','1P','comes','आता है'),V('पठति','√पठ्','1P','reads, studies','पढ़ता है'),V('लिखति','√लिख्','6P','writes','लिखता है'),
+ V('पश्यति','√दृश्','1P','sees','देखता है'),V('वदति','√वद्','1P','speaks','बोलता है'),V('खादति','√खाद्','1P','eats','खाता है'),V('पिबति','√पा','1P','drinks','पीता है'),
+ V('ददाति','√दा','3U','gives','देता है'),V('करोति','√कृ','8U','does, makes','करता है'),V('भवति','√भू','1P','becomes, is','होता है'),V('तिष्ठति','√स्था','1P','stands, stays','ठहरता है'),
+ V('वसति','√वस्','1P','lives, dwells','रहता है'),V('धावति','√धाव्','1U','runs','दौड़ता है'),V('हसति','√हस्','1P','laughs','हँसता है'),V('जानाति','√ज्ञा','9U','knows','जानता है'),
+ V('इच्छति','√इष्','6P','wants','चाहता है'),V('पतति','√पत्','1P','falls','गिरता है'),V('नयति','√नी','1U','leads, takes','ले जाता है'),V('पृच्छति','√प्रच्छ्','6P','asks','पूछता है'),
+ ['अत्र','अव्यय','here','यहाँ'],['तत्र','अव्यय','there','वहाँ'],['कुत्र','अव्यय','where?','कहाँ'],['अद्य','अव्यय','today','आज'],
+ ['श्वः','अव्यय','tomorrow','कल (आने वाला)'],['ह्यः','अव्यय','yesterday','कल (बीता हुआ)'],['सह','अव्यय','with (+ तृतीया)','साथ'],['विना','अव्यय','without','बिना'],
+ ['एव','अव्यय','only, indeed','ही'],['अपि','अव्यय','also, even','भी'],['च','अव्यय','and','और'],['न','अव्यय','not','नहीं'],
+ ['सदा','अव्यय','always','हमेशा'],['शनैः','अव्यय','slowly','धीरे'],['शीघ्रम्','अव्यय','quickly','जल्दी'],['उच्चैः','अव्यय','loudly','ज़ोर से'],
+ ['इदानीम्','अव्यय','now','अब'],['कदा','अव्यय','when?','कब'],
+ ['सुन्दर','विशेषण','beautiful','सुंदर'],['लघु','विशेषण','small, light','छोटा, हल्का'],['नव','विशेषण','new','नया'],['प्राचीन','विशेषण','ancient','पुराना'],
+ ['महत्','विशेषण','great, large','बड़ा, महान'],['शुभ','विशेषण','auspicious, good','शुभ, अच्छा'],
+ ['भ्राता','पुं. (भ्रातृ)','brother','भाई'],['स्वसा','स्त्री. (स्वसृ)','sister','बहन'],['दुहिता','स्त्री. (दुहितृ)','daughter','बेटी'],['जामाता','पुं. (जामातृ)','son-in-law','दामाद'],
+ ['ननान्दा','स्त्री. (ननान्दृ)',"husband's sister",'ननद'],['देवा','पुं. (देवृ)',"husband's younger brother",'देवर'],['भर्ता','पुं. (भर्तृ)','husband; supporter','पति'],
+ ['कर्ता','पुं. (कर्तृ)','doer, agent','करने वाला'],['दाता','पुं. (दातृ)','giver, donor','देने वाला'],['नेता','पुं. (नेतृ)','leader','नेता'],['श्रोता','पुं. (श्रोतृ)','listener','सुनने वाला'],
+ ['वक्ता','पुं. (वक्तृ)','speaker','बोलने वाला'],['स्रष्टा','पुं. (स्रष्टृ)','creator','सृष्टिकर्ता'],['द्रष्टा','पुं. (द्रष्टृ)','seer, observer','देखने वाला'],
+ ['होता','पुं. (होतृ)','priest who offers oblations','हवन करने वाला'],['रक्षिता','पुं. (रक्षितृ)','protector','रक्षक'],
+ V('अस्ति','√अस्','2P','is, exists','है'),
+ V('शृणोति','√श्रु','5P','hears','सुनता है'),
+ V('क्रीडति','√क्रीड्','1P','plays','खेलता है'),
+ V('चलति','√चल्','1P','moves, walks','चलता है'),
+ V('नृत्यति','√नृत्','4P','dances','नाचता है'),
+ V('गायति','√गै','1P','sings','गाता है'),
+ V('स्मरति','√स्मृ','1P','remembers','याद करता है'),
+ V('त्यजति','√त्यज्','1P','abandons','छोड़ता है'),
+ V('रक्षति','√रक्ष्','1P','protects','रक्षा करता है'),
+ V('पचति','√पच्','1U','cooks','पकाता है'),
+ V('क्षिपति','√क्षिप्','6U','throws','फेंकता है'),
+ V('स्पृशति','√स्पृश्','6P','touches','छूता है'),
+ V('प्रविशति','प्र + √विश्','6P','enters','प्रवेश करता है'),
+ V('उपविशति','उप + √विश्','6P','sits down','बैठता है'),
+ V('मिलति','√मिल्','6P','meets','मिलता है'),
+ V('सृजति','√सृज्','6P','creates','रचता है'),
+ V('मुञ्चति','√मुच्','6U','releases, frees','छोड़ देता है'),
+ V('सिञ्चति','√सिच्','6U','sprinkles, waters','सींचता है'),
+ V('कथयति','√कथ्','10U','tells, narrates','कहता है'),
+ V('चिन्तयति','√चिन्त्','10U','thinks','सोचता है'),
+ V('चोरयति','√चुर्','10U','steals','चुराता है'),
+ V('पूजयति','√पूज्','10U','worships','पूजा करता है'),
+ V('भक्षयति','√भक्ष्','10U','eats, devours','खाता है'),
+ V('रचयति','√रच्','10U','composes, arranges','रचना करता है'),
+ V('गणयति','√गण्','10U','counts','गिनता है'),
+ V('पालयति','√पाल्','10U','protects, rears','पालता है'),
+ V('क्षालयति','√क्षल्','10U','washes','धोता है'),
+ V('ताडयति','√तड्','10U','beats, strikes','पीटता है'),
+ V('प्रेषयति','प्र + √इष्','णिजन्त','sends','भेजता है'),
+ V('दर्शयति','√दृश्','णिजन्त','shows','दिखाता है'),
+ V('स्थापयति','√स्था','णिजन्त','places, establishes','रखता है'),
+ V('आनयति','आ + √नी','1U','brings','लाता है'),
+ V('हरति','√हृ','1U','takes away','ले जाता है'),
+ V('सहते','√सह्','1A','endures','सहता है'),
+ V('उत्तिष्ठति','उत् + √स्था','1P','gets up, rises','उठता है'),
+ V('जयति','√जि','1P','conquers, wins','जीतता है'),
+ V('स्नाति','√स्ना','2P','bathes','नहाता है'),
+ V('शेते','√शी','2A','lies down','लेटता है, सोता है'),
+ V('स्वपिति','√स्वप्','2P','sleeps','सोता है'),
+ V('रोदिति','√रुद्','2P','cries','रोता है'),
+ V('हन्ति','√हन्','2P','kills, strikes','मारता है'),
+ V('याति','√या','2P','goes','जाता है'),
+ V('ब्रवीति','√ब्रू','2U','says','कहता है'),
+ V('आस्ते','√आस्','2A','sits, stays','बैठता है'),
+ V('दधाति','√धा','3U','places, holds','रखता है, धारण करता है'),
+ V('जुहोति','√हु','3P','offers into fire','आहुति देता है'),
+ V('बिभेति','√भी','3P','fears (+ पञ्चमी)','डरता है'),
+ V('कुप्यति','√कुप्','4P','gets angry','क्रोध करता है'),
+ V('तुष्यति','√तुष्','4P','is pleased','संतुष्ट होता है'),
+ V('नश्यति','√नश्','4P','perishes','नष्ट होता है'),
+ V('मन्यते','√मन्','4A','thinks, considers','मानता है'),
+ V('जायते','√जन्','4A','is born, arises','पैदा होता है'),
+ V('युध्यते','√युध्','4A','fights','लड़ता है'),
+ V('सिध्यति','√सिध्','4P','succeeds','सिद्ध होता है'),
+ V('प्राप्नोति','प्र + √आप्','5P','obtains, reaches','पाता है'),
+ V('शक्नोति','√शक्','5P','is able','सकता है'),
+ V('चिनोति','√चि','5U','gathers','इकट्ठा करता है'),
+ V('रुणद्धि','√रुध्','7U','obstructs','रोकता है'),
+ V('भुङ्क्ते','√भुज्','7A','eats, enjoys','खाता है, भोगता है'),
+ V('छिनत्ति','√छिद्','7U','cuts','काटता है'),
+ V('युनक्ति','√युज्','7U','joins, yokes','जोड़ता है'),
+ V('तनोति','√तन्','8U','extends','फैलाता है'),
+ V('क्रीणाति','√क्री','9U','buys','खरीदता है'),
+ V('विक्रीणीते','वि + √क्री','9A','sells','बेचता है'),
+ V('गृह्णाति','√ग्रह्','9U','takes, grasps','पकड़ता है, लेता है'),
+ V('बध्नाति','√बन्ध्','9P','binds','बाँधता है'),
+ V('लभते','√लभ्','1A','obtains','पाता है'),
+ V('सेवते','√सेव्','1A','serves','सेवा करता है'),
+ V('वन्दते','√वन्द्','1A','salutes, praises','वंदना करता है'),
+ V('वर्धते','√वृध्','1A','grows','बढ़ता है'),
+ V('भाषते','√भाष्','1A','speaks','बोलता है'),
+ V('याचते','√याच्','1U','asks for, begs','माँगता है'),
+ V('शोभते','√शुभ्','1A','shines, looks beautiful','शोभा देता है'),
+ V('रोचते','√रुच्','1A','is pleasing (+ चतुर्थी)','अच्छा लगता है'),
+ V('कम्पते','√कम्प्','1A','trembles','काँपता है'),
+ V('मोदते','√मुद्','1A','rejoices','प्रसन्न होता है'),
+ V('वहति','√वह्','1U','carries','ढोता है'),
+ V('नमति','√नम्','1P','bows','झुकता है'),
+ V('जीवति','√जीव्','1P','lives','जीता है'),
+ V('तरति','√तॄ','1P','crosses','पार करता है')
+];
+(()=>{const GA={m:'पुं.',f:'स्त्री.',n:'नपुं.'},have=new Set(VOCAB.map(v=>v[0]));
+ PARADIGMS.forEach(p=>{if(p.type==='pron')return;const nom=p.forms[0][0].split('|')[0];if(have.has(nom))return;have.add(nom);VOCAB.push([nom,`${GA[p.g]} (${p.word})`,p.gloss,p.hi])});})();
+const DECKS=[
+ {id:'form',dev:'रूपम्',en:'Build the form',sub:'See a noun with its case and number, then pick the right form.'},
+ {id:'ident',dev:'अभिज्ञानम्',en:'Place the form',sub:'See a form, then tap its place in the table. Shared forms count anywhere they fit.'},
+ {id:'sent',dev:'वाक्यम्',en:'Cases in sentences',sub:'Fill the gap with the form the sentence needs.'},
+ {id:'vocab',dev:'शब्दकोशः',en:'Vocabulary',sub:'Flip the card, then mark whether you knew it.'}
+];
+const ROUND=12;
+
+/* ---------- helpers ---------- */
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DIG='०१२३४५६७८९';
+const dn=n=>String(n).replace(/\d/g,d=>DIG[d]);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const vars=f=>f.split('|');
+const prim=f=>vars(f)[0];
+const showF=(f,voc)=>vars(f).map(x=>(voc?'हे ':'')+x).join(' / ');
+const pById=id=>PARADIGMS.find(p=>p.id===id);
+
+/* ---------- storage: synced store when available, browser storage as fallback ---------- */
+const LS_KEY='vibhakti-krida-v1';
+let store={boxes:{},settings:{types:CASE_TYPES.map(t=>t.id),dir:'sa',vcat:['noun','verb','other']},updated:0};
+function adopt(s){
+  if(!s||typeof s!=='object')return;
+  store.boxes=s.boxes&&typeof s.boxes==='object'?s.boxes:{};
+  if(s.settings){
+    const ty=(s.settings.types||[]).filter(id=>CASE_TYPES.some(t=>t.id===id));
+    store.settings.types=ty.length?ty:CASE_TYPES.map(t=>t.id);
+    const vc=(s.settings.vcat||['noun','verb','other']).filter(x=>['noun','verb','other'].includes(x));
+    store.settings.vcat=vc.length?vc:['noun','verb','other'];
+    store.settings.dir=s.settings.dir==='en'?'en':'sa';
+  }
+  store.updated=s.updated||0;
+}
+try{const raw=localStorage.getItem(LS_KEY); if(raw)adopt(JSON.parse(raw));}catch(e){}
+let remote=null,tmr=null,inflight=false,pending=false;
+function save(){
+  store.updated=Date.now();
+  try{localStorage.setItem(LS_KEY,JSON.stringify(store));}catch(e){}
+  if(remote){clearTimeout(tmr);tmr=setTimeout(flush,1500);}
+}
+async function flush(){
+  if(!remote)return;
+  if(inflight){pending=true;return}
+  inflight=true;
+  try{await remote.set({json:JSON.stringify(store),updated:store.updated});}catch(e){}
+  inflight=false;
+  if(pending){pending=false;flush();}
+}
+async function initRemote(){
+  try{
+    if(!window.claude||typeof window.claude.use!=='function')return;
+    const [db,user]=await Promise.all([window.claude.use('db'),window.claude.use('user')]);
+    if(!db||!user)return;
+    const uid=await user.id(); if(!uid)return;
+    const ref=db.collection('data/users/'+uid).doc('progress');
+    const snap=await ref.get();
+    remote=ref;
+    if(snap.exists){
+      const d=snap.data();
+      if(d&&d.json&&(d.updated||0)>store.updated){
+        adopt(JSON.parse(d.json));
+        try{localStorage.setItem(LS_KEY,JSON.stringify(store));}catch(e){}
+        if(view==='home'||view==='ref')render();
+      }else if(store.updated>(d&&d.updated||0)){flush();}
+    }else if(store.updated){flush();}
+  }catch(e){}
+}
+
+/* ---------- decks ---------- */
+const vcat=v=>v[1].includes('√')?'verb':(v[1]==='अव्यय'||v[1]==='विशेषण')?'other':'noun';
+const VCATS=[['noun','Nouns'],['verb','Verbs'],['other','Indeclinables and adjectives']];
+function cards(deck){
+  const act=PARADIGMS.filter(p=>store.settings.types.includes(p.type));
+  const out=[];
+  if(deck==='form'){
+    act.forEach(p=>p.forms.forEach((row,c)=>row&&row.forEach((f,n)=>out.push({id:`form:${p.id}:${c}:${n}`,deck,p,c,n,f}))));
+  }else if(deck==='ident'){
+    act.forEach(p=>{const seen=new Set();p.forms.forEach(row=>row&&row.forEach(f=>{const x=prim(f);if(!seen.has(x)){seen.add(x);out.push({id:`ident:${p.id}:${x}`,deck,p,form:x})}}))});
+  }else if(deck==='sent'){
+    SENTS.forEach((s,i)=>out.push({id:`sent:${i}`,deck,s}));
+  }else if(deck==='vocab'){
+    const d=store.settings.dir;
+    const vc=store.settings.vcat;
+    VOCAB.forEach((v,i)=>{if(vc.includes(vcat(v)))out.push({id:`vocab:${i}:${d}`,deck,v,d})});
+  }
+  return out;
+}
+function mastery(deck){
+  const all=cards(deck);
+  const learned=all.filter(c=>(store.boxes[c.id]||0)>=3).length;
+  return {learned,total:all.length};
+}
+
+/* ---------- round state ---------- */
+let view='home',round=null,refSel='deva',refT='m-a',resetArmed=false;
+
+function startRound(deck){
+  const all=cards(deck);
+  if(!all.length)return;
+  const pick=all.map(c=>({c,k:(store.boxes[c.id]||0)+Math.random()*1.6})).sort((a,b)=>a.k-b.k).slice(0,ROUND).map(x=>x.c);
+  round={deck,items:shuffle(pick).map(c=>({...c})),i:0,score:0,streak:0,best:0,misses:[],answered:false,flipped:false,pickedOk:null};
+  view='play';render();window.scrollTo(0,0);
+}
+function grade(ok){
+  const c=round.items[round.i];
+  const b=store.boxes[c.id]||0;
+  store.boxes[c.id]=ok?Math.min(5,b+1):1;
+  if(ok){round.score++;round.streak++;round.best=Math.max(round.best,round.streak);}
+  else{round.streak=0;round.misses.push(c);}
+  round.answered=true;round.pickedOk=ok;
+  save();
+}
+function next(){
+  round.i++;round.answered=false;round.flipped=false;round.pickedOk=null;
+  if(round.i>=round.items.length)view='end';
+  render();
+  const b=document.querySelector('.opt,.cell,[data-act="flip"]');
+  if(b)b.focus({preventScroll:true});
+}
+
+/* question builders */
+function formOptions(c){
+  if(c.opts)return c.opts;
+  const av=new Set(vars(c.f)),voc=c.c===7,seen=new Set([prim(c.f)]),pool=[];
+  c.p.forms.forEach((row,ci)=>row&&row.forEach((f,ni)=>{
+    const x=prim(f);
+    if(seen.has(x)||vars(f).some(v=>av.has(v)))return;
+    seen.add(x);
+    pool.push({f,k:((ci===c.c||ni===c.n)?0:1)+Math.random()*0.9});
+  }));
+  const ds=pool.sort((a,b)=>a.k-b.k).slice(0,3).map(o=>o.f);
+  c.opts=shuffle([c.f,...ds]).map(f=>({label:showF(f,voc),ok:f===c.f}));
+  return c.opts;
+}
+function sentOptions(c){
+  if(!c.opts)c.opts=shuffle(c.s.o.map((t,i)=>({label:t,ok:i===0})));
+  return c.opts;
+}
+const cellMatches=(p,form)=>{const m=[];p.forms.forEach((row,ci)=>row&&row.forEach((f,ni)=>{if(vars(f).includes(form))m.push([ci,ni])}));return m};
+
+/* ---------- views ---------- */
+const GROUPS=[['m','पुंलिङ्ग'],['f','स्त्रीलिङ्ग'],['n','नपुंसकलिङ्ग'],['p','सर्वनाम']];
+function typeChips(act,on){
+  return GROUPS.map(([g,l])=>`<div class="cg"><span class="cgl dev">${l}</span><div class="chips">${CASE_TYPES.filter(t=>t.g===g).map(t=>`<button class="chip" data-act="${act}" data-t="${t.id}" aria-pressed="${on(t)}" title="${esc(t.label)}">${esc(g==='p'?'भवत्, तद्…':t.chip)}<span class="n">${t.count}</span></button>`).join('')}</div></div>`).join('');
+}
+function homeView(){
+  const deckRows=DECKS.map(d=>{
+    const m=mastery(d.id),pct=m.total?Math.round(m.learned/m.total*100):0;
+    return `<button class="deck" data-act="deck" data-deck="${d.id}">
+      <span class="dn">${d.dev}</span><span class="ct">${m.learned} of ${m.total} learned</span>
+      <span class="en">${esc(d.en)}</span><span class="sub">${esc(d.sub)}</span>
+      <span class="meter" aria-hidden="true"><i style="width:${pct}%"></i></span></button>`;
+  }).join('');
+  const chips=typeChips('toggleT',t=>store.settings.types.includes(t.id));
+  const dir=store.settings.dir;
+  return `<header class="mast"><h1>विभक्तिक्रीडा</h1><p>Flashcards for Sanskrit cases and vocabulary</p></header>
+  <section class="decks" aria-label="Decks">${deckRows}</section>
+  <h2>Word types in the case decks</h2>
+  ${chips}
+  <p class="note">The first two decks draw only from the stem types selected here. The small number is how many words each type has.</p>
+  <h2>Vocabulary direction</h2>
+  <div class="seg" role="group" aria-label="Vocabulary direction">
+    <button data-act="dir" data-dir="sa" aria-pressed="${dir==='sa'}">Sanskrit to meaning</button>
+    <button data-act="dir" data-dir="en" aria-pressed="${dir==='en'}">Meaning to Sanskrit</button>
+  </div>
+  <h2>Vocabulary includes</h2>
+  <div class="chips">${VCATS.map(([k,l])=>`<button class="chip" style="font-family:var(--ui);font-size:.9rem" data-act="vcat" data-k="${k}" aria-pressed="${store.settings.vcat.includes(k)}">${l} (${VOCAB.filter(v=>vcat(v)===k).length})</button>`).join('')}</div>
+  <p class="note">Each round picks ${ROUND} cards, favouring the ones you have missed or not yet seen. A card counts as learned after three correct answers in a row.</p>
+  <div class="links">
+    <button class="link" data-act="ref">Open the declension tables</button>
+    <button class="link quiet" data-act="reset">${resetArmed?'Tap again to erase all progress':'Reset progress'}</button>
+  </div>`;
+}
+
+function topBar(){
+  const n=round.items.length,i=Math.min(round.i+1,n);
+  return `<div class="top"><button class="link quiet" data-act="home">Quit round</button>
+    <span>${i} of ${n}</span><span class="streak" title="Current streak">क्रम ${dn(round.streak)}</span></div>
+    <div class="prog" aria-hidden="true"><i style="width:${(round.i+(round.answered?1:0))/n*100}%"></i></div>`;
+}
+
+function feedback(html){
+  if(!round.answered)return '<div class="fb"></div>';
+  const ok=round.pickedOk;
+  return `<div class="fb ${ok?'ok':'no'}"><span class="verdict">${ok?'Correct.':'Not quite.'}</span> ${html}</div>
+    <button class="primary" data-act="next">${round.i+1>=round.items.length?'See results':'Next card'}</button>`;
+}
+
+function optsHtml(opts){
+  return `<div class="opts">${opts.map((o,i)=>{
+    let cls='opt';
+    if(round.answered){if(o.ok)cls+=' right';else if(o.picked)cls+=' wrong';}
+    return `<button class="${cls}" data-act="opt" data-i="${i}" ${round.answered?'disabled':''}>${esc(o.label)}</button>`;
+  }).join('')}</div>`;
+}
+
+function playView(){
+  const c=round.items[round.i];
+  let body='';
+  if(c.deck==='form'){
+    const opts=formOptions(c),cs=CASES[c.c];
+    const alt=vars(c.f).length>1?` Both forms are accepted: <span class="dv">${esc(showF(c.f,c.c===7))}</span>.`:'';
+    body=`<div class="card"><div class="big">${esc(c.p.word)}</div><div class="meta"><span class="dev">${esc(c.p.desc)}</span>, ${esc(c.p.gloss)}</div>
+      <div class="ask">${cs.dev}, ${NUMS[c.n]}</div><div class="hint">${esc(cs.en)} (<span class="dev">${esc(cs.hi)}</span>)</div></div>
+      ${optsHtml(opts)}
+      ${feedback(round.pickedOk?alt.trim():`The form is <span class="dv">${esc(showF(c.f,c.c===7))}</span>.`)}`;
+  }else if(c.deck==='ident'){
+    const m=cellMatches(c.p,c.form),key=new Set(m.map(x=>x.join(',')));
+    const rows=c.p.forms.map((row,ci)=>{
+      if(!row)return '';
+      return `<tr><th class="row" scope="row">${CASES[ci].dev}</th>${row.map((f,ni)=>{
+        let cls='cell',label='';
+        if(round.answered){
+          label=esc(showF(f,ci===7));
+          if(key.has(ci+','+ni))cls+=' hit';
+          else if(round.tapped===ci+','+ni)cls+=' miss';
+        }
+        return `<td><button class="${cls}" data-act="cell" data-c="${ci}" data-n="${ni}" aria-label="${CASES[ci].dev} ${NUMS[ni]}" ${round.answered?'disabled':''}>${label}</button></td>`;
+      }).join('')}</tr>`;
+    }).join('');
+    const where=m.map(([ci,ni])=>`${CASES[ci].dev} ${NUMS[ni]}`).join(', ');
+    const fbText=m.length>1?`<span class="dv">${esc(c.form)}</span> fits ${m.length} places: <span class="dv">${where}</span>.`
+      :`<span class="dv">${esc(c.form)}</span> is <span class="dv">${where}</span>.`;
+    body=`<div class="card"><div class="big">${esc(c.form)}</div><div class="meta">from <span class="dev">${esc(c.p.word)}</span> (${esc(c.p.gloss)}), <span class="dev">${esc(c.p.desc)}</span></div></div>
+      <div class="gridwrap"><table class="grid"><thead><tr><th></th>${NUMS_SHORT.map(n=>`<th class="dev" scope="col">${n}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>
+      ${feedback(fbText)}`;
+  }else if(c.deck==='sent'){
+    const opts=sentOptions(c),s=c.s,ans=s.o[0];
+    const [a,b]=s.s.split('___');
+    const blank=round.answered?`<span class="blank filled">${esc(ans)}</span>`:`<span class="blank" aria-label="blank">&nbsp;</span>`;
+    body=`<div class="card"><div class="sent">${esc(a)}${blank}${esc(b)}</div>
+      <div class="meta" style="margin-top:10px">Word: <span class="dev" style="font-size:1.1rem">${esc(s.w)}</span></div>
+      ${round.answered?`<div class="hint" style="margin-top:6px">${esc(s.en)}</div>`:''}</div>
+      ${optsHtml(opts)}
+      ${feedback(`<span class="dv">${CASES[s.c].dev}</span>. ${esc(s.why).replace(/([\u0900-\u097F][\u0900-\u097F\s+]*[\u0900-\u097F])/g,'<span class="dv">$1</span>')}`)}`;
+  }else{
+    const v=c.v,sa=c.d==='sa';
+    const front=sa?`<div class="big">${esc(v[0])}</div><div class="meta dev">${esc(v[1])}</div>`
+                  :`<div class="big" style="font-family:var(--ui);font-size:clamp(2rem,9vw,2.8rem);font-weight:500">${esc(v[2])}</div><div class="meta">Say it in Sanskrit</div>`;
+    const back=sa?`<div class="mean">${esc(v[2])}</div><div class="hi">${esc(v[3])}</div>`
+                 :`<div class="big" style="font-size:clamp(2.2rem,11vw,3rem)">${esc(v[0])}</div><div class="meta dev">${esc(v[1])}</div><div class="hi">${esc(v[3])}</div>`;
+    body=`<div class="card">${front}${round.flipped?`<div class="back">${back}</div>`:''}</div>`;
+    if(!round.flipped)body+=`<button class="primary" data-act="flip">Show answer</button>`;
+    else if(!round.answered)body+=`<div class="pair"><button class="secondary" data-act="self" data-ok="0">Not yet</button><button class="primary" data-act="self" data-ok="1">I knew it</button></div>`;
+    else body+=`<button class="primary" data-act="next">${round.i+1>=round.items.length?'See results':'Next card'}</button>`;
+  }
+  return topBar()+body;
+}
+
+function missLine(c){
+  if(c.deck==='form')return [`${c.p.word}, ${CASES[c.c].dev} ${NUMS[c.n]}`,showF(c.f,c.c===7)];
+  if(c.deck==='ident')return [`${c.form} (${c.p.word})`,cellMatches(c.p,c.form).map(([ci,ni])=>`${CASES[ci].dev} ${NUMS[ni]}`).join(', ')];
+  if(c.deck==='sent')return [c.s.s.replace('___','…'),`${c.s.o[0]} (${CASES[c.s.c].dev})`];
+  return c.d==='sa'?[c.v[0],`${c.v[2]}; ${c.v[3]}`]:[c.v[2],c.v[0]];
+}
+function endView(){
+  const n=round.items.length;
+  const list=round.misses.length?`<h2>Review these</h2><ul class="misses">${round.misses.map(c=>{const [q,a]=missLine(c);return `<li><div class="q">${esc(q)}</div><div class="a">${esc(a)}</div></li>`}).join('')}</ul>`
+    :`<p class="note">No misses this round.</p>`;
+  return `<div class="card"><div class="big">${dn(round.score)} / ${dn(n)}</div>
+    <div class="meta">${round.score} of ${n} correct. Longest streak: ${round.best}.</div></div>
+    ${list}
+    <div class="pair"><button class="secondary" data-act="home">Back to decks</button><button class="primary" data-act="again">Play another round</button></div>`;
+}
+
+function refView(){
+  const t=CASE_TYPES.find(x=>x.id===refT)||CASE_TYPES[0];
+  const words=PARADIGMS.filter(x=>x.type===t.id);
+  const p=words.find(x=>x.id===refSel)||words[0];
+  const chips=typeChips('refT',x=>x.id===t.id)+`<div class="chips" style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">${words.map(x=>`<button class="chip" data-act="refP" data-p="${esc(x.id)}" aria-pressed="${x.id===p.id}">${esc(x.chip)}</button>`).join('')}</div>`;
+  const rows=p.forms.map((row,ci)=>row?`<tr><th class="row" scope="row">${CASES[ci].dev}</th>${row.map(f=>`<td>${esc(showF(f,ci===7))}</td>`).join('')}</tr>`:'').join('');
+  const roles=CASES.map(c=>`<tr><th class="row" scope="row">${c.dev}</th><td>${c.karaka}<span class="small">${esc(c.en)}</span></td><td>${c.hi}</td></tr>`).join('');
+  return `<div class="top"><button class="link quiet" data-act="home">Back to decks</button><span></span></div>
+  <header class="mast" style="margin-top:10px"><h1 style="font-size:clamp(2rem,8vw,2.6rem)">रूपतालिका</h1><p>Declension tables</p></header>
+  <div style="margin-top:14px">${chips}</div>
+  <h2><span class="dev" style="font-size:1.2rem;color:var(--ink)">${esc(p.word)}</span>, <span class="dev">${esc(p.desc)}</span>, ${esc(p.gloss)}</h2>
+  <div class="gridwrap"><table class="ref"><thead><tr><th></th>${NUMS.map(n=>`<th class="dev" scope="col">${n}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>
+  ${NOTES[t.id]?`<p class="note dev" style="font-size:1rem;color:var(--ink)">${esc(NOTES[t.id])}</p>`:''}
+  <p class="note">Where two forms are shown, the second is an accepted alternate (for pronouns, the shorter enclitic form).</p>
+  <h2>What each case does</h2>
+  <div class="gridwrap"><table class="ref"><thead><tr><th scope="col">विभक्ति</th><th scope="col">Role</th><th scope="col">Hindi</th></tr></thead><tbody>${roles}</tbody></table></div>
+  <p class="note">षष्ठी marks relation (सम्बन्ध), which grammarians do not count as a kāraka.</p>`;
+}
+
+const app=document.getElementById('app');
+function render(){
+  if(view==='home')app.innerHTML=homeView();
+  else if(view==='play')app.innerHTML=playView();
+  else if(view==='end')app.innerHTML=endView();
+  else app.innerHTML=refView();
+}
+
+/* ---------- events ---------- */
+app.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]'); if(!b)return;
+  const act=b.dataset.act;
+  if(act!=='reset')resetArmed=false;
+  switch(act){
+    case 'deck':startRound(b.dataset.deck);break;
+    case 'toggleT':{
+      const id=b.dataset.t,a=store.settings.types;
+      if(a.includes(id)){if(a.length>1)store.settings.types=a.filter(x=>x!==id);}
+      else store.settings.types=CASE_TYPES.map(t=>t.id).filter(x=>x===id||a.includes(x));
+      save();render();break;}
+    case 'vcat':{
+      const k=b.dataset.k,a=store.settings.vcat;
+      if(a.includes(k)){if(a.length>1)store.settings.vcat=a.filter(x=>x!==k);}else store.settings.vcat=[...a,k];
+      save();render();break;}
+    case 'dir':store.settings.dir=b.dataset.dir;save();render();break;
+    case 'ref':view='ref';render();window.scrollTo(0,0);break;
+    case 'refP':refSel=b.dataset.p;render();break;
+    case 'refT':refT=b.dataset.t;refSel='';render();break;
+    case 'home':view='home';round=null;render();window.scrollTo(0,0);break;
+    case 'again':startRound(round.deck);break;
+    case 'reset':
+      if(resetArmed){store.boxes={};resetArmed=false;save();}
+      else resetArmed=true;
+      render();break;
+    case 'opt':{
+      if(round.answered)return;
+      const c=round.items[round.i],o=c.opts[+b.dataset.i];
+      o.picked=true;grade(o.ok);render();focusNext();break;}
+    case 'cell':{
+      if(round.answered)return;
+      const c=round.items[round.i],ci=+b.dataset.c,ni=+b.dataset.n;
+      round.tapped=ci+','+ni;
+      grade(vars(c.p.forms[ci][ni]).includes(c.form));render();focusNext();break;}
+    case 'flip':round.flipped=true;render();{const k=app.querySelector('[data-act="self"][data-ok="1"]');if(k)k.focus({preventScroll:true});}break;
+    case 'self':grade(b.dataset.ok==='1');render();focusNext();break;
+    case 'next':next();break;
+  }
+});
+function focusNext(){const n=app.querySelector('[data-act="next"]');if(n)n.focus({preventScroll:true});}
+document.addEventListener('keydown',e=>{
+  if(view!=='play'||!round||e.metaKey||e.ctrlKey||e.altKey)return;
+  const c=round.items[round.i];
+  if(/^[1-4]$/.test(e.key)&&!round.answered&&(c.deck==='form'||c.deck==='sent')){
+    const btn=app.querySelectorAll('.opt')[+e.key-1]; if(btn){e.preventDefault();btn.click();}
+  }else if(c.deck==='vocab'&&!round.answered&&round.flipped&&(e.key==='y'||e.key==='n')){
+    e.preventDefault();app.querySelector(`[data-act="self"][data-ok="${e.key==='y'?1:0}"]`).click();
+  }
+});
+
+render();
+initRemote();
+</script>
+</body>
+</html>

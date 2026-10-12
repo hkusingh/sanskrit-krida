@@ -1,6 +1,7 @@
 # Sanskrit vibhakti flashcards
 
-Single self-contained page: `index.html` (HTML, CSS and JS inline, no build step).
+`index.html` (HTML, CSS and JS inline, no build step) plus `examples.js`, loaded with a plain
+`<script src>` so the page still works when opened from disk.
 
 ## Data (top of the <script>)
 - `TPL`: declension templates. Endings are appended to an a-final base (देव, मुन, पित).
@@ -11,6 +12,9 @@ Single self-contained page: `index.html` (HTML, CSS and JS inline, no build step
 - Pronouns are hand-written with `P(...)`.
 - `SENTS`: gap-fill sentences; the first option is the correct one; `c` is the case index (0–7).
 - `VOCAB`: [word, grammar note, English, Hindi]. Case-deck nouns are appended to it automatically.
+- `EX` (in `examples.js`): example sentence for each vocabulary word, keyed by the VOCAB headword:
+  [sentence, English, note]. `{braces}` mark the word; the note names the case and why.
+  Every VOCAB word, including the auto-appended nouns, should have an entry.
 
 ## Rules
 - Progress is stored by card id. Vocabulary ids use the array index, so only APPEND to

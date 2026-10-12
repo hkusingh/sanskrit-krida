@@ -11,7 +11,7 @@ Flashcards for learning Sanskrit noun declensions (vibhaktis) and building vocab
 | **रूपम्** (Build the form) | See a word with its case and number, e.g. पितृ, तृतीया, एकवचन, and pick the correct form. |
 | **अभिज्ञानम्** (Place the form) | See a form such as देवाभ्याम् and tap its cell in the case table. The full table is then revealed, with every cell sharing that form highlighted. |
 | **वाक्यम्** (Cases in sentences) | Fill the gap in a sentence. Each answer explains which case is needed and why. |
-| **शब्दकोशः** (Vocabulary) | Flip cards for about 250 words: nouns, 100 common verbs with root, gaṇa and pada, indeclinables and adjectives. Each comes with English and Hindi meanings and works in either direction. |
+| **शब्दकोशः** (Vocabulary) | Flip cards for about 250 words: nouns, 100 common verbs with root, gaṇa and pada, indeclinables and adjectives. Each comes with English and Hindi meanings and an example sentence that names the case used and why, and works in either direction. |
 
 A reference section shows the full declension table for every word, notes on each stem type, and the role of each case with its Hindi equivalent.
 
@@ -34,7 +34,7 @@ On a computer, keys 1–4 choose an answer and Y or N grades vocabulary cards.
 
 ## Running it locally
 
-There is no build step. The whole app is one file, `index.html`. Open it in any browser, or serve the folder:
+There is no build step. The app is `index.html` plus `examples.js` (example sentences for the vocabulary deck). Open `index.html` in any browser, or serve the folder:
 
 ```bash
 python3 -m http.server 8000

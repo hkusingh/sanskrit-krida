@@ -22,7 +22,7 @@ Each stem type in the case decks has at least five words.
 - **Masculine:** अ, इ, उ, ऋ (relationship and agent nouns)
 - **Feminine:** आ, इ, ई, उ, ऊ, ऋ
 - **Neuter:** अ, इ, उ
-- **Pronouns:** तद्, अस्मद्, युष्मद्, भवत्, भवती
+- **Pronouns:** तद् and किम् (all three genders), अस्मद्, युष्मद्, भवत्, भवती
 
 You can switch stem types on or off from the home screen.
 

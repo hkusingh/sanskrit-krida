@@ -429,13 +429,16 @@ const pById=id=>PARADIGMS.find(p=>p.id===id);
 
 /* ---------- storage: synced store when available, browser storage as fallback ---------- */
 const LS_KEY='vibhakti-krida-v1';
-let store={boxes:{},settings:{types:CASE_TYPES.map(t=>t.id),dir:'sa',vcat:['noun','verb','other']},updated:0};
+const ALL_CASES=CASES.map((_,i)=>i);
+let store={boxes:{},settings:{types:CASE_TYPES.map(t=>t.id),cases:ALL_CASES.slice(),dir:'sa',vcat:['noun','verb','other']},updated:0};
 function adopt(s){
   if(!s||typeof s!=='object')return;
   store.boxes=s.boxes&&typeof s.boxes==='object'?s.boxes:{};
   if(s.settings){
     const ty=(s.settings.types||[]).filter(id=>CASE_TYPES.some(t=>t.id===id));
     store.settings.types=ty.length?ty:CASE_TYPES.map(t=>t.id);
+    const cs=(s.settings.cases||ALL_CASES).filter(i=>ALL_CASES.includes(i));
+    store.settings.cases=cs.length?cs:ALL_CASES.slice();
     const vc=(s.settings.vcat||['noun','verb','other']).filter(x=>['noun','verb','other'].includes(x));
     store.settings.vcat=vc.length?vc:['noun','verb','other'];
     store.settings.dir=s.settings.dir==='en'?'en':'sa';
@@ -484,7 +487,8 @@ function cards(deck){
   const act=PARADIGMS.filter(p=>store.settings.types.includes(p.type));
   const out=[];
   if(deck==='form'){
-    act.forEach(p=>p.forms.forEach((row,c)=>row&&row.forEach((f,n)=>out.push({id:`form:${p.id}:${c}:${n}`,deck,p,c,n,f}))));
+    const cs=store.settings.cases;
+    act.forEach(p=>p.forms.forEach((row,c)=>row&&cs.includes(c)&&row.forEach((f,n)=>out.push({id:`form:${p.id}:${c}:${n}`,deck,p,c,n,f}))));
   }else if(deck==='ident'){
     act.forEach(p=>{const seen=new Set();p.forms.forEach(row=>row&&row.forEach(f=>{const x=prim(f);if(!seen.has(x)){seen.add(x);out.push({id:`ident:${p.id}:${x}`,deck,p,form:x})}}))});
   }else if(deck==='sent'){
@@ -569,6 +573,10 @@ function homeView(){
   <h2>Word types in the case decks</h2>
   ${chips}
   <p class="note">The first two decks draw only from the stem types selected here. The small number is how many words each type has.</p>
+  <h2>Cases in रूपम्</h2>
+  <div class="chips">${CASES.map((c,i)=>`<button class="chip" data-act="toggleC" data-c="${i}" aria-pressed="${store.settings.cases.includes(i)}" title="${esc(c.en)}">${c.dev}</button>`).join('')}
+    <button class="chip" style="font-family:var(--ui);font-size:.9rem" data-act="allC" aria-pressed="${store.settings.cases.length===CASES.length}">All</button></div>
+  <p class="note">रूपम् asks only for the cases selected here, so you can practise one विभक्ति at a time. Pronouns have no सम्बोधन.</p>
   <h2>Vocabulary direction</h2>
   <div class="seg" role="group" aria-label="Vocabulary direction">
     <button data-act="dir" data-dir="sa" aria-pressed="${dir==='sa'}">Sanskrit to meaning</button>
@@ -715,6 +723,12 @@ app.addEventListener('click',e=>{
       if(a.includes(id)){if(a.length>1)store.settings.types=a.filter(x=>x!==id);}
       else store.settings.types=CASE_TYPES.map(t=>t.id).filter(x=>x===id||a.includes(x));
       save();render();break;}
+    case 'toggleC':{
+      const i=+b.dataset.c,a=store.settings.cases;
+      if(a.includes(i)){if(a.length>1)store.settings.cases=a.filter(x=>x!==i);}
+      else store.settings.cases=ALL_CASES.filter(x=>x===i||a.includes(x));
+      save();render();break;}
+    case 'allC':store.settings.cases=ALL_CASES.slice();save();render();break;
     case 'vcat':{
       const k=b.dataset.k,a=store.settings.vcat;
       if(a.includes(k)){if(a.length>1)store.settings.vcat=a.filter(x=>x!==k);}else store.settings.vcat=[...a,k];

@@ -512,7 +512,12 @@ let view='home',round=null,refSel='deva',refT='m-a',resetArmed=false;
 function startRound(deck){
   const all=cards(deck);
   if(!all.length)return;
-  const pick=all.map(c=>({c,k:(store.boxes[c.id]||0)+Math.random()*1.6})).sort((a,b)=>a.k-b.k).slice(0,ROUND).map(x=>x.c);
+  /* cards already started (and missed ones) come back until learned; new cards fill the rest,
+     so a card can reach "learned" in a few rounds instead of after the whole pool is seen */
+  const box=c=>store.boxes[c.id],rnd=a=>a.map(c=>({c,k:(box(c)||0)+Math.random()*.9})).sort((x,y)=>x.k-y.k).map(x=>x.c);
+  const started=rnd(all.filter(c=>box(c)!==undefined&&box(c)<3)),fresh=shuffle(all.filter(c=>box(c)===undefined)),learned=rnd(all.filter(c=>box(c)>=3));
+  const keep=fresh.length?Math.min(started.length,ROUND-4):started.length;
+  const pick=[...started.slice(0,keep),...fresh,...started.slice(keep),...learned].slice(0,ROUND);
   round={deck,items:shuffle(pick).map(c=>({...c})),i:0,score:0,streak:0,best:0,misses:[],answered:false,flipped:false,pickedOk:null};
   view='play';render();window.scrollTo(0,0);
 }

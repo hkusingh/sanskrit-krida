@@ -130,6 +130,9 @@ h2{font-size:.95rem;font-weight:600;margin:30px 0 10px;color:var(--muted)}
 .ref thead th{font-size:.8rem;font-weight:500;color:var(--muted);border-bottom:2px solid var(--ink)}
 .ref td,.ref th.row{font-family:var(--dev);font-size:1.08rem;font-weight:400}
 .ref .small{display:block;font-family:var(--ui);font-size:.75rem;color:var(--muted)}
+.dots{display:block;font-family:var(--ui);font-size:.8rem;letter-spacing:2px;color:var(--line)}
+.dots i{font-style:normal;color:var(--haldi)}
+.dots.done i{color:var(--right)}
 
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 @media (min-width:520px){.card{padding:24px 28px 28px}}
@@ -246,6 +249,8 @@ TYPES.forEach(t=>t.words.forEach(([id,stem,base,tpl,en,hi])=>PARADIGMS.push({id:
 ].forEach(x=>PARADIGMS.push(x));
 TYPES.find(t=>t.id==='pron').count=10;
 TYPES.forEach(t=>{t.count=PARADIGMS.filter(p=>p.type===t.id).length});
+/* प्रथमा एकवचन, used as the word's heading (सः, देवः) */
+PARADIGMS.forEach(p=>{p.nom=p.forms[0][0].split('|')[0]});
 /* hidden types stay in the vocabulary deck but are left out of the case decks */
 const CASE_TYPES=TYPES.filter(t=>!t.hidden);
 
@@ -430,7 +435,7 @@ const pById=id=>PARADIGMS.find(p=>p.id===id);
 /* ---------- storage: synced store when available, browser storage as fallback ---------- */
 const LS_KEY='vibhakti-krida-v1';
 const ALL_CASES=CASES.map((_,i)=>i);
-let store={boxes:{},settings:{types:CASE_TYPES.map(t=>t.id),cases:ALL_CASES.slice(),dir:'sa',vcat:['noun','verb','other']},updated:0};
+let store={boxes:{},runs:{},settings:{types:CASE_TYPES.map(t=>t.id),cases:ALL_CASES.slice(),dir:'sa',vcat:['noun','verb','other']},updated:0};
 function adopt(s){
   if(!s||typeof s!=='object')return;
   store.boxes=s.boxes&&typeof s.boxes==='object'?s.boxes:{};
@@ -443,6 +448,7 @@ function adopt(s){
     store.settings.vcat=vc.length?vc:['noun','verb','other'];
     store.settings.dir=s.settings.dir==='en'?'en':'sa';
   }
+  store.runs=s.runs&&typeof s.runs==='object'?s.runs:{};
   store.updated=s.updated||0;
 }
 try{const raw=localStorage.getItem(LS_KEY); if(raw)adopt(JSON.parse(raw));}catch(e){}
@@ -488,7 +494,7 @@ function cards(deck){
   const out=[];
   if(deck==='form'){
     const cs=store.settings.cases;
-    act.forEach(p=>p.forms.forEach((row,c)=>row&&cs.includes(c)&&row.forEach((f,n)=>out.push({id:`form:${p.id}:${c}:${n}`,deck,p,c,n,f}))));
+    act.forEach(p=>p.forms.forEach((row,c)=>row&&cs.includes(c)&&row.forEach((f,n)=>(c||n)&&out.push({id:`form:${p.id}:${c}:${n}`,deck,p,c,n,f}))));
   }else if(deck==='ident'){
     act.forEach(p=>{const seen=new Set();p.forms.forEach(row=>row&&row.forEach(f=>{const x=prim(f);if(!seen.has(x)){seen.add(x);out.push({id:`ident:${p.id}:${x}`,deck,p,form:x})}}))});
   }else if(deck==='sent'){
@@ -507,7 +513,7 @@ function mastery(deck){
 }
 
 /* ---------- round state ---------- */
-let view='home',round=null,refSel='deva',refT='m-a',resetArmed=false;
+let view='home',round=null,refSel='deva',refT='m-a',progSel='deva',progT='m-a',resetArmed=false;
 
 function startRound(deck){
   const all=cards(deck);
@@ -516,15 +522,18 @@ function startRound(deck){
      so a card can reach "learned" in a few rounds instead of after the whole pool is seen */
   const box=c=>store.boxes[c.id],rnd=a=>a.map(c=>({c,k:(box(c)||0)+Math.random()*.9})).sort((x,y)=>x.k-y.k).map(x=>x.c);
   const started=rnd(all.filter(c=>box(c)!==undefined&&box(c)<3)),fresh=shuffle(all.filter(c=>box(c)===undefined)),learned=rnd(all.filter(c=>box(c)>=3));
-  const keep=fresh.length?Math.min(started.length,ROUND-4):started.length;
-  const pick=[...started.slice(0,keep),...fresh,...started.slice(keep),...learned].slice(0,ROUND);
+  /* every second round in a deck also reviews one learned card picked at random */
+  const runs=store.runs[deck]=(store.runs[deck]||0)+1;
+  const review=runs%2===0&&learned.length?[learned.splice(Math.floor(Math.random()*learned.length),1)[0]]:[];
+  const keep=fresh.length?Math.min(started.length,ROUND-4-review.length):started.length;
+  const pick=[...review,...started.slice(0,keep),...fresh,...started.slice(keep),...learned].slice(0,ROUND);
   round={deck,items:shuffle(pick).map(c=>({...c})),i:0,score:0,streak:0,best:0,misses:[],answered:false,flipped:false,pickedOk:null};
   view='play';render();window.scrollTo(0,0);
 }
 function grade(ok){
   const c=round.items[round.i];
   const b=store.boxes[c.id]||0;
-  store.boxes[c.id]=ok?Math.min(5,b+1):1;
+  store.boxes[c.id]=ok?Math.min(5,b+1):0;
   if(ok){round.score++;round.streak++;round.best=Math.max(round.best,round.streak);}
   else{round.streak=0;round.misses.push(c);}
   round.answered=true;round.pickedOk=ok;
@@ -544,7 +553,7 @@ function formOptions(c){
   const av=new Set(vars(c.f)),voc=c.c===7,seen=new Set([prim(c.f)]),pool=[];
   c.p.forms.forEach((row,ci)=>row&&row.forEach((f,ni)=>{
     const x=prim(f);
-    if(seen.has(x)||vars(f).some(v=>av.has(v)))return;
+    if(seen.has(x)||vars(f).some(v=>av.has(v)||v===c.p.nom))return; // the heading form is never a wrong option
     seen.add(x);
     pool.push({f,k:((ci===c.c||ni===c.n)?0:1)+Math.random()*0.9});
   }));
@@ -592,6 +601,7 @@ function homeView(){
   <p class="note">Each round picks ${ROUND} cards, favouring the ones you have missed or not yet seen. A card counts as learned after three correct answers in a row.</p>
   <div class="links">
     <button class="link" data-act="ref">Open the declension tables</button>
+    <button class="link" data-act="prog">View progress</button>
     <button class="link quiet" data-act="reset">${resetArmed?'Tap again to erase all progress':'Reset progress'}</button>
   </div>`;
 }
@@ -624,7 +634,7 @@ function playView(){
   if(c.deck==='form'){
     const opts=formOptions(c),cs=CASES[c.c];
     const alt=vars(c.f).length>1?` Both forms are accepted: <span class="dv">${esc(showF(c.f,c.c===7))}</span>.`:'';
-    body=`<div class="card"><div class="big">${esc(c.p.word)}</div><div class="meta"><span class="dev">${esc(c.p.desc)}</span>, ${esc(c.p.gloss)}</div>
+    body=`<div class="card"><div class="big">${esc(c.p.nom)} <span style="font-size:.55em;color:var(--muted)">(${esc(c.p.word)})</span></div><div class="meta"><span class="dev">${esc(c.p.desc)}</span>, ${esc(c.p.gloss)}</div>
       <div class="ask">${cs.dev}, ${NUMS[c.n]}</div><div class="hint">${esc(cs.en)} (<span class="dev">${esc(cs.hi)}</span>)</div></div>
       ${optsHtml(opts)}
       ${feedback(round.pickedOk?alt.trim():`The form is <span class="dv">${esc(showF(c.f,c.c===7))}</span>.`)}`;
@@ -674,7 +684,7 @@ function playView(){
 }
 
 function missLine(c){
-  if(c.deck==='form')return [`${c.p.word}, ${CASES[c.c].dev} ${NUMS[c.n]}`,showF(c.f,c.c===7)];
+  if(c.deck==='form')return [`${c.p.nom} (${c.p.word}), ${CASES[c.c].dev} ${NUMS[c.n]}`,showF(c.f,c.c===7)];
   if(c.deck==='ident')return [`${c.form} (${c.p.word})`,cellMatches(c.p,c.form).map(([ci,ni])=>`${CASES[ci].dev} ${NUMS[ni]}`).join(', ')];
   if(c.deck==='sent')return [c.s.s.replace('___','…'),`${c.s.o[0]} (${CASES[c.s.c].dev})`];
   return c.d==='sa'?[c.v[0],`${c.v[2]}; ${c.v[3]}`]:[c.v[2],c.v[0]];
@@ -689,17 +699,35 @@ function endView(){
     <div class="pair"><button class="secondary" data-act="home">Back to decks</button><button class="primary" data-act="again">Play another round</button></div>`;
 }
 
+/* रूपम् progress: correct answers in a row for each cell, 3 = learned */
+function progView(){
+  const t=CASE_TYPES.find(x=>x.id===progT)||CASE_TYPES[0];
+  const words=PARADIGMS.filter(x=>x.type===t.id);
+  const p=words.find(x=>x.id===progSel)||words[0];
+  const sc=(w,ci,ni)=>Math.min(3,store.boxes[`form:${w.id}:${ci}:${ni}`]||0);
+  const cells=w=>w.forms.flatMap((row,ci)=>row?row.map((_,ni)=>[ci,ni]):[]).filter(([ci,ni])=>ci||ni);
+  const learned=w=>cells(w).filter(([ci,ni])=>sc(w,ci,ni)>=3).length;
+  const chips=typeChips('progT',x=>x.id===t.id)+`<div class="chips" style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">${words.map(x=>`<button class="chip" data-act="progP" data-p="${esc(x.id)}" aria-pressed="${x.id===p.id}">${esc(x.nom)}<span class="n">${learned(x)}/${cells(x).length}</span></button>`).join('')}</div>`;
+  const dots=n=>`<span class="dots${n>=3?' done':''}" aria-label="${n} of 3"><i>${'●'.repeat(n)}</i>${'●'.repeat(3-n)}</span>`;
+  const rows=p.forms.map((row,ci)=>row?`<tr><th class="row" scope="row">${CASES[ci].dev}</th>${row.map((f,ni)=>ci||ni?`<td>${esc(showF(f,ci===7))}${dots(sc(p,ci,ni))}</td>`:`<td>${esc(prim(f))}<span class="small">heading</span></td>`).join('')}</tr>`:'').join('');
+  return `<div class="top"><button class="link quiet" data-act="home">Back to decks</button><span></span></div>
+  <header class="mast" style="margin-top:10px"><h1 style="font-size:clamp(2rem,8vw,2.6rem)">प्रगतिः</h1><p>Progress in रूपम्</p></header>
+  <div style="margin-top:14px">${chips}</div>
+  <h2><span class="dev" style="font-size:1.2rem;color:var(--ink)">${esc(p.nom)} (${esc(p.word)})</span>, ${learned(p)} of ${cells(p).length} learned</h2>
+  <div class="gridwrap"><table class="ref"><thead><tr><th></th>${NUMS.map(n=>`<th class="dev" scope="col">${n}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>
+  <p class="note">Each dot is a correct answer in a row for that form. Three dots means it is learned; a wrong answer clears the dots. प्रथमा एकवचन is shown as the card heading, so it is not asked. The number on each word is forms learned out of forms asked.</p>`;
+}
 function refView(){
   const t=CASE_TYPES.find(x=>x.id===refT)||CASE_TYPES[0];
   const words=PARADIGMS.filter(x=>x.type===t.id);
   const p=words.find(x=>x.id===refSel)||words[0];
-  const chips=typeChips('refT',x=>x.id===t.id)+`<div class="chips" style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">${words.map(x=>`<button class="chip" data-act="refP" data-p="${esc(x.id)}" aria-pressed="${x.id===p.id}">${esc(x.chip)}</button>`).join('')}</div>`;
+  const chips=typeChips('refT',x=>x.id===t.id)+`<div class="chips" style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">${words.map(x=>`<button class="chip" data-act="refP" data-p="${esc(x.id)}" aria-pressed="${x.id===p.id}">${esc(x.nom)}</button>`).join('')}</div>`;
   const rows=p.forms.map((row,ci)=>row?`<tr><th class="row" scope="row">${CASES[ci].dev}</th>${row.map(f=>`<td>${esc(showF(f,ci===7))}</td>`).join('')}</tr>`:'').join('');
   const roles=CASES.map(c=>`<tr><th class="row" scope="row">${c.dev}</th><td>${c.karaka}<span class="small">${esc(c.en)}</span></td><td>${c.hi}</td></tr>`).join('');
   return `<div class="top"><button class="link quiet" data-act="home">Back to decks</button><span></span></div>
   <header class="mast" style="margin-top:10px"><h1 style="font-size:clamp(2rem,8vw,2.6rem)">रूपतालिका</h1><p>Declension tables</p></header>
   <div style="margin-top:14px">${chips}</div>
-  <h2><span class="dev" style="font-size:1.2rem;color:var(--ink)">${esc(p.word)}</span>, <span class="dev">${esc(p.desc)}</span>, ${esc(p.gloss)}</h2>
+  <h2><span class="dev" style="font-size:1.2rem;color:var(--ink)">${esc(p.nom)}</span>, <span class="dev">${esc(p.desc)}</span>, ${esc(p.gloss)}</h2>
   <div class="gridwrap"><table class="ref"><thead><tr><th></th>${NUMS.map(n=>`<th class="dev" scope="col">${n}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>
   ${NOTES[t.id]?`<p class="note dev" style="font-size:1rem;color:var(--ink)">${esc(NOTES[t.id])}</p>`:''}
   <p class="note">Where two forms are shown, the second is an accepted alternate (for pronouns, the shorter enclitic form).</p>
@@ -713,6 +741,7 @@ function render(){
   if(view==='home')app.innerHTML=homeView();
   else if(view==='play')app.innerHTML=playView();
   else if(view==='end')app.innerHTML=endView();
+  else if(view==='prog')app.innerHTML=progView();
   else app.innerHTML=refView();
 }
 
@@ -740,6 +769,9 @@ app.addEventListener('click',e=>{
       save();render();break;}
     case 'dir':store.settings.dir=b.dataset.dir;save();render();break;
     case 'ref':view='ref';render();window.scrollTo(0,0);break;
+    case 'prog':view='prog';render();window.scrollTo(0,0);break;
+    case 'progP':progSel=b.dataset.p;render();break;
+    case 'progT':progT=b.dataset.t;progSel='';render();break;
     case 'refP':refSel=b.dataset.p;render();break;
     case 'refT':refT=b.dataset.t;refSel='';render();break;
     case 'home':view='home';round=null;render();window.scrollTo(0,0);break;

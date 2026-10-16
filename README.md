@@ -28,7 +28,7 @@ You can switch stem types on or off from the home screen.
 
 ## How it schedules cards
 
-Each round is 12 cards. Cards you have started, including ones you missed, keep coming back until they are learned, and every round also brings in at least four new cards. A card counts as learned after three correct answers in a row; learned cards come back for review once nothing else is left. Progress is saved in your browser, so it is kept per device and per browser.
+Each round is 12 cards. Cards you have started, including ones you missed, keep coming back until they are learned, and every round also brings in at least four new cards. A card counts as learned after three correct answers in a row; every second round also reviews one learned card picked at random, and learned cards fill the rounds once nothing else is left. Progress is saved in your browser, so it is kept per device and per browser.
 
 On a computer, keys 1–4 choose an answer and Y or N grades vocabulary cards.
 

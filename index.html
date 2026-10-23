@@ -638,7 +638,7 @@ function playView(){
     const alt=vars(c.f).length>1?` Both forms are accepted: <span class="dv">${esc(showF(c.f,c.c===7))}</span>.`:'';
     body=`<div class="card"><div class="big">${esc(c.p.nom)} <span style="font-size:.55em;color:var(--muted)">(${esc(c.p.word)})</span></div><div class="meta"><span class="dev">${esc(c.p.desc)}</span>, ${esc(c.p.gloss)}</div>
       <div class="ask">${cs.dev}, ${NUMS[c.n]}</div><div class="hint">${esc(cs.en)} (<span class="dev">${esc(cs.hi)}</span>)</div>
-      <div class="hint streakline">${dots(Math.min(3,store.boxes[c.id]||0))}${(store.boxes[c.id]||0)>=3?'Learned':`${Math.min(3,store.boxes[c.id]||0)} of 3 correct in a row`}</div></div>
+      ${streakLine(c)}</div>
       ${optsHtml(opts)}
       ${feedback(round.pickedOk?alt.trim():`The form is <span class="dv">${esc(showF(c.f,c.c===7))}</span>.`)}`;
   }else if(c.deck==='ident'){
@@ -658,7 +658,7 @@ function playView(){
     const where=m.map(([ci,ni])=>`${CASES[ci].dev} ${NUMS[ni]}`).join(', ');
     const fbText=m.length>1?`<span class="dv">${esc(c.form)}</span> fits ${m.length} places: <span class="dv">${where}</span>.`
       :`<span class="dv">${esc(c.form)}</span> is <span class="dv">${where}</span>.`;
-    body=`<div class="card"><div class="big">${esc(c.form)}</div><div class="meta">from <span class="dev">${esc(c.p.word)}</span> (${esc(c.p.gloss)}), <span class="dev">${esc(c.p.desc)}</span></div></div>
+    body=`<div class="card"><div class="big">${esc(c.form)}</div><div class="meta">from <span class="dev">${esc(c.p.word)}</span> (${esc(c.p.gloss)}), <span class="dev">${esc(c.p.desc)}</span></div>${streakLine(c)}</div>
       <div class="gridwrap"><table class="grid"><thead><tr><th></th>${NUMS_SHORT.map(n=>`<th class="dev" scope="col">${n}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>
       ${feedback(fbText)}`;
   }else if(c.deck==='sent'){
@@ -667,7 +667,7 @@ function playView(){
     const blank=round.answered?`<span class="blank filled">${esc(ans)}</span>`:`<span class="blank" aria-label="blank">&nbsp;</span>`;
     body=`<div class="card"><div class="sent">${esc(a)}${blank}${esc(b)}</div>
       <div class="meta" style="margin-top:10px">Word: <span class="dev" style="font-size:1.1rem">${esc(s.w)}</span></div>
-      ${round.answered?`<div class="hint" style="margin-top:6px">${esc(s.en)}</div>`:''}</div>
+      ${round.answered?`<div class="hint" style="margin-top:6px">${esc(s.en)}</div>`:''}${streakLine(c)}</div>
       ${optsHtml(opts)}
       ${feedback(`<span class="dv">${CASES[s.c].dev}</span>. ${devSpans(s.why)}`)}`;
   }else{
@@ -678,7 +678,7 @@ function playView(){
                  :`<div class="big" style="font-size:clamp(2.2rem,11vw,3rem)">${esc(v[0])}</div><div class="meta dev">${esc(v[1])}</div><div class="hi">${esc(v[3])}</div>`;
     const x=typeof EX!=='undefined'&&EX[v[0]];
     const ex=x?`<div class="ex"><div class="exs">${esc(x[0]).replace(/\{(.+?)\}/g,'<b>$1</b>')}</div><div class="exe">${esc(x[1])}</div><div class="exw">${devSpans(x[2])}</div></div>`:'';
-    body=`<div class="card">${front}${round.flipped?`<div class="back">${back}${ex}</div>`:''}</div>`;
+    body=`<div class="card">${front}${streakLine(c)}${round.flipped?`<div class="back">${back}${ex}</div>`:''}</div>`;
     if(!round.flipped)body+=`<button class="primary" data-act="flip">Show answer</button>`;
     else if(!round.answered)body+=`<div class="pair"><button class="secondary" data-act="self" data-ok="0">Not yet</button><button class="primary" data-act="self" data-ok="1">I knew it</button></div>`;
     else body+=`<button class="primary" data-act="next">${round.i+1>=round.items.length?'See results':'Next card'}</button>`;
@@ -704,6 +704,7 @@ function endView(){
 
 /* correct answers in a row, shown as three dots (3 = learned) */
 const dots=n=>`<span class="dots${n>=3?' done':''}" aria-label="${n} of 3"><i>${'●'.repeat(n)}</i>${'●'.repeat(3-n)}</span>`;
+const streakLine=c=>{const n=Math.min(3,store.boxes[c.id]||0);return `<div class="hint streakline">${dots(n)}${n>=3?'Learned':`${n} of 3 correct in a row`}</div>`};
 /* रूपम् progress: correct answers in a row for each cell, 3 = learned */
 function progView(){
   const t=CASE_TYPES.find(x=>x.id===progT)||CASE_TYPES[0];

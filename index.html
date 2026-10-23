@@ -133,6 +133,8 @@ h2{font-size:.95rem;font-weight:600;margin:30px 0 10px;color:var(--muted)}
 .dots{display:block;font-family:var(--ui);font-size:.8rem;letter-spacing:2px;color:var(--line)}
 .dots i{font-style:normal;color:var(--haldi)}
 .dots.done i{color:var(--right)}
+.streakline{margin-top:10px;display:flex;align-items:center;gap:8px}
+.streakline .dots{display:inline-block}
 
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 @media (min-width:520px){.card{padding:24px 28px 28px}}
@@ -635,7 +637,8 @@ function playView(){
     const opts=formOptions(c),cs=CASES[c.c];
     const alt=vars(c.f).length>1?` Both forms are accepted: <span class="dv">${esc(showF(c.f,c.c===7))}</span>.`:'';
     body=`<div class="card"><div class="big">${esc(c.p.nom)} <span style="font-size:.55em;color:var(--muted)">(${esc(c.p.word)})</span></div><div class="meta"><span class="dev">${esc(c.p.desc)}</span>, ${esc(c.p.gloss)}</div>
-      <div class="ask">${cs.dev}, ${NUMS[c.n]}</div><div class="hint">${esc(cs.en)} (<span class="dev">${esc(cs.hi)}</span>)</div></div>
+      <div class="ask">${cs.dev}, ${NUMS[c.n]}</div><div class="hint">${esc(cs.en)} (<span class="dev">${esc(cs.hi)}</span>)</div>
+      <div class="hint streakline">${dots(Math.min(3,store.boxes[c.id]||0))}${(store.boxes[c.id]||0)>=3?'Learned':`${Math.min(3,store.boxes[c.id]||0)} of 3 correct in a row`}</div></div>
       ${optsHtml(opts)}
       ${feedback(round.pickedOk?alt.trim():`The form is <span class="dv">${esc(showF(c.f,c.c===7))}</span>.`)}`;
   }else if(c.deck==='ident'){
@@ -699,6 +702,8 @@ function endView(){
     <div class="pair"><button class="secondary" data-act="home">Back to decks</button><button class="primary" data-act="again">Play another round</button></div>`;
 }
 
+/* correct answers in a row, shown as three dots (3 = learned) */
+const dots=n=>`<span class="dots${n>=3?' done':''}" aria-label="${n} of 3"><i>${'●'.repeat(n)}</i>${'●'.repeat(3-n)}</span>`;
 /* रूपम् progress: correct answers in a row for each cell, 3 = learned */
 function progView(){
   const t=CASE_TYPES.find(x=>x.id===progT)||CASE_TYPES[0];
@@ -708,7 +713,6 @@ function progView(){
   const cells=w=>w.forms.flatMap((row,ci)=>row?row.map((_,ni)=>[ci,ni]):[]).filter(([ci,ni])=>ci||ni);
   const learned=w=>cells(w).filter(([ci,ni])=>sc(w,ci,ni)>=3).length;
   const chips=typeChips('progT',x=>x.id===t.id)+`<div class="chips" style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">${words.map(x=>`<button class="chip" data-act="progP" data-p="${esc(x.id)}" aria-pressed="${x.id===p.id}">${esc(x.nom)}<span class="n">${learned(x)}/${cells(x).length}</span></button>`).join('')}</div>`;
-  const dots=n=>`<span class="dots${n>=3?' done':''}" aria-label="${n} of 3"><i>${'●'.repeat(n)}</i>${'●'.repeat(3-n)}</span>`;
   const rows=p.forms.map((row,ci)=>row?`<tr><th class="row" scope="row">${CASES[ci].dev}</th>${row.map((f,ni)=>ci||ni?`<td>${esc(showF(f,ci===7))}${dots(sc(p,ci,ni))}</td>`:`<td>${esc(prim(f))}<span class="small">heading</span></td>`).join('')}</tr>`:'').join('');
   return `<div class="top"><button class="link quiet" data-act="home">Back to decks</button><span></span></div>
   <header class="mast" style="margin-top:10px"><h1 style="font-size:clamp(2rem,8vw,2.6rem)">प्रगतिः</h1><p>Progress in रूपम्</p></header>
